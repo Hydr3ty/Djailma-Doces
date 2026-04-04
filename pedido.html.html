@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Djailma Doces · Monte seu pedido de doces personalizados.">
+<title>Pedido · Djailma Doces</title>
+<meta property="og:title" content="Monte seu Pedido · Djailma Doces">
+<meta property="og:description" content="Monte seu pedido de doces personalizados. Escolha os produtos, personalize e envie direto pelo WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Djailma Doces">
+<meta name="theme-color" content="#D4928A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:  #FAF5F2;
+  --cream2: #F5EDE8;
+  --blush:  #F2D4D0;
+  --rose:   #D4928A;
+  --rose-d: #B8665E;
+  --rouge:  #9B4A44;
+  --ink:    #2C1810;
+  --ink-m:  #6B3E38;
+  --ink-s:  #A07870;
+  --white:  #FEFEFE;
+  --green:  #16A34A;
+  --r: 12px; --r2: 20px; --r3: 32px;
+  --sh:  0 2px 20px rgba(180,100,90,.10);
+  --shd: 0 8px 40px rgba(180,100,90,.18);
+  --tr:  .32s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  
+  padding-bottom:80px;
+}
+img{display:block}a{color:inherit;text-decoration:none}
+
+/* ══ CURSOR ══ */
+/* cursor padrão do sistema */
+
+/* ═══════════════════════════════════════════
+   DECORAÇÕES ARTÍSTICAS — flores, borboletas
+═══════════════════════════════════════════ */
+.deco{position:absolute;pointer-events:none;user-select:none;z-index:0}
+.deco svg{display:block}
+@keyframes decoFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+@keyframes decoSway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes decoWingL{0%,100%{transform:scaleX(1) rotate(-2deg)}50%{transform:scaleX(.82) rotate(2deg)}}
+@keyframes decoWingR{0%,100%{transform:scaleX(-1) rotate(2deg)}50%{transform:scaleX(-.82) rotate(-2deg)}}
+@keyframes decoDrift{0%{transform:translateX(0) translateY(0) rotate(0deg)}33%{transform:translateX(6px) translateY(-10px) rotate(4deg)}66%{transform:translateX(-4px) translateY(-5px) rotate(-3deg)}100%{transform:translateX(0) translateY(0) rotate(0deg)}}
+@keyframes decoSpinSlow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.deco.float{animation:decoFloat 7s ease-in-out infinite}
+.deco.sway{animation:decoSway 5s ease-in-out infinite;transform-origin:bottom center}
+.deco.wing{animation:decoWingL 2.8s ease-in-out infinite}
+.deco.wing-r{animation:decoWingR 2.8s ease-in-out infinite}
+.deco.drift{animation:decoDrift 9s ease-in-out infinite}
+.deco.spin{animation:decoSpinSlow 18s linear infinite;transform-origin:center}
+
+/* ── FAB WHATSAPP (acima do bottom-bar) ── */
+.fab-wa{
+  position:fixed;
+  bottom:calc(76px + env(safe-area-inset-bottom));
+  right:18px;
+  width:48px;height:48px;
+  background:#22C55E;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 18px rgba(34,197,94,.38);
+  z-index:590;text-decoration:none;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease;
+}
+.fab-wa::after{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.14);animation:fwrip 2.8s ease-out infinite}
+.fab-wa:hover{transform:scale(1.1);box-shadow:0 8px 24px rgba(34,197,94,.48)}
+.fab-wa:active{transform:scale(.92)}
+.fab-wa svg{width:22px;height:22px;fill:white;position:relative;z-index:1}
+@keyframes fwrip{0%{transform:scale(1);opacity:.5}100%{transform:scale(2);opacity:0}}
+
+
+/* ══ LOADER ══ */
+#ldr{position:fixed;inset:0;background:var(--cream);z-index:9998;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .7s ease,visibility .7s ease}
+#ldr.gone{opacity:0;visibility:hidden;pointer-events:none}
+.ldr-logo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--rose-d);letter-spacing:4px;animation:ldPulse 1.3s ease-in-out infinite}
+@keyframes ldPulse{0%,100%{opacity:.35;transform:scale(.97)}50%{opacity:1;transform:scale(1.03)}}
+.ldr-dots{display:flex;gap:7px}
+.ldr-d{width:6px;height:6px;background:var(--rose);border-radius:50%;animation:ldDot 1.2s ease-in-out infinite}
+.ldr-d:nth-child(2){animation-delay:.15s}.ldr-d:nth-child(3){animation-delay:.3s}
+@keyframes ldDot{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-8px);opacity:1}}
+
+/* ══ RIBBON ══ */
+.ribbon{height:30px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
+.rb-track{display:flex;white-space:nowrap;animation:mq 30s linear infinite}
+.rb-track span{font-size:9.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.5);padding:0 26px}
+.rb-track span.s{color:var(--rose);opacity:.4;padding:0}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══ TOPBAR ══ */
+.topbar{
+  position:sticky;top:0;z-index:600;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  background:rgba(250,245,242,.96);backdrop-filter:blur(18px) saturate(1.5);
+  border-bottom:1px solid rgba(212,146,138,.15);
+  transition:box-shadow var(--tr);
+}
+.topbar.sc{box-shadow:var(--sh)}
+.tb-back{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--ink-s);transition:color var(--tr)}
+.tb-back:hover{color:var(--rose-d)}
+.tb-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.tb-logo{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:20px;letter-spacing:1px;position:absolute;left:50%;transform:translateX(-50%)}
+.tb-logo em{font-style:italic;color:var(--rose-d)}
+.tb-cart{position:relative;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--ink)}
+.tb-cart svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#cart-count{
+  position:absolute;top:-6px;right:-8px;
+  min-width:16px;height:16px;padding:0 4px;
+  background:var(--rose-d);color:white;
+  border-radius:50px;font-size:9px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(0);transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+#cart-count.show{opacity:1;transform:scale(1)}
+
+/* ══ PROGRESS BAR ══ */
+#progress-wrap{
+  padding:16px 20px 0;
+  background:var(--white);
+  border-bottom:1px solid rgba(212,146,138,.1);
+  position:sticky;top:56px;z-index:500;
+}
+.prog-steps{display:flex;align-items:flex-start;justify-content:space-between;position:relative;padding-bottom:14px}
+.prog-line-bg{
+  position:absolute;top:12px;left:calc(16.666%);right:calc(16.666%);
+  height:1.5px;background:rgba(212,146,138,.18);
+}
+.prog-line-fill{
+  position:absolute;top:0;left:0;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--rose),var(--rose-d));
+  transition:width .6s cubic-bezier(.4,0,.2,1);
+  border-radius:2px;
+}
+.prog-step{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  flex:1;position:relative;z-index:1;
+}
+.prog-dot{
+  width:24px;height:24px;border-radius:50%;
+  border:1.5px solid rgba(212,146,138,.3);
+  background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:600;color:var(--ink-s);
+  transition:all .35s ease;
+}
+.prog-step.done .prog-dot{background:var(--rose-d);border-color:var(--rose-d);color:white}
+.prog-step.active .prog-dot{
+  background:var(--ink);border-color:var(--ink);color:white;
+  box-shadow:0 0 0 4px rgba(44,24,16,.08);
+  animation:glowDot 2s ease-in-out infinite;
+}
+@keyframes glowDot{0%,100%{box-shadow:0 0 0 4px rgba(44,24,16,.08)}50%{box-shadow:0 0 0 6px rgba(212,146,138,.15)}}
+.prog-label{font-size:9.5px;font-weight:500;color:var(--ink-s);letter-spacing:.3px;text-align:center;transition:color .3s}
+.prog-step.active .prog-label{color:var(--ink);font-weight:600}
+.prog-step.done .prog-label{color:var(--rose-d)}
+
+/* ══ STEPS ══ */
+.step-panel{display:none;animation:stepIn .4s ease forwards}
+/* Cantos florais das etapas */
+.ped-floral-corner{position:absolute;width:52px;height:52px;pointer-events:none;z-index:0}
+.ped-floral-corner.tl{top:4px;left:4px}
+.ped-floral-corner.tr{top:4px;right:4px;transform:scaleX(-1)}
+.ped-floral-corner.bl{bottom:4px;left:4px;transform:scaleY(-1)}
+.ped-floral-corner.br{bottom:4px;right:4px;transform:scale(-1)}
+.step-panel.active{display:block}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ STEP HEADER ══ */
+.step-head{padding:28px 20px 8px;text-align:center}
+.step-eyebrow{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--rose);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:10px}
+.step-eyebrow::before,.step-eyebrow::after{content:'';flex:1;max-width:40px;height:1px;background:rgba(212,146,138,.3)}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6vw,34px);font-weight:600;color:var(--ink);line-height:1.1;letter-spacing:-.3px}
+.step-title em{font-style:italic;color:var(--rose-d)}
+.step-sub{font-size:11.5px;color:var(--ink-s);margin-top:6px;line-height:1.6}
+
+/* ══ PRODUCT GRID ══ */
+#prod-container{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:16px 14px;
+}
+@media(min-width:480px){#prod-container{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:700px){#prod-container{grid-template-columns:repeat(4,1fr)}}
+
+.pc{
+  background:var(--white);
+  border-radius:var(--r2);
+  border:1.5px solid rgba(212,146,138,.12);
+  overflow:hidden;
+  position:relative;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease,border-color .25s ease;
+  animation:cardPop .4s ease both;
+}
+@keyframes cardPop{from{opacity:0;transform:scale(.93) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.pc:hover{transform:translateY(-4px) scale(1.01);box-shadow:var(--shd);border-color:rgba(212,146,138,.4)}
+.pc.selected{border-color:var(--rose-d);box-shadow:0 0 0 3px rgba(184,102,94,.12)}
+.pc-check{
+  position:absolute;top:7px;right:7px;z-index:3;
+  width:18px;height:18px;background:var(--rose-d);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(0);transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  font-size:9px;color:white;
+}
+.pc.selected .pc-check{opacity:1;transform:scale(1)}
+
+.pc-img-wrap{
+  width:100%;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,var(--blush),var(--cream2));
+  position:relative;
+}
+.pc-img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.pc:hover .pc-img{transform:scale(1.08)}
+.pc-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(28px,7vw,42px);
+  background:linear-gradient(135deg,var(--blush) 0%,var(--cream2) 100%);
+  animation:placeholderShimmer 3s ease-in-out infinite;
+}
+@keyframes placeholderShimmer{0%,100%{opacity:.8}50%{opacity:1}}
+
+.pc-body{padding:9px 10px 12px}
+.pc-name{font-size:11.5px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:2px}
+.pc-price{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--rose-d);margin-bottom:8px}
+.pc-unit{font-size:9px;color:var(--ink-s);letter-spacing:.3px}
+
+/* Qty stepper */
+.pc-stepper{display:flex;align-items:center;gap:0;background:var(--cream);border-radius:50px;overflow:hidden;border:1px solid rgba(212,146,138,.2)}
+.pc-btn{
+  width:30px;height:30px;border:none;background:transparent;
+  font-size:16px;font-weight:400;color:var(--rose-d);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,color .2s;
+  flex-shrink:0;
+}
+.pc-btn:hover{background:var(--rose-d);color:white}
+.pc-qty{flex:1;text-align:center;font-size:13px;font-weight:600;color:var(--ink);min-width:28px}
+.pc-confirm{font-size:9.5px;color:var(--green);font-weight:500;margin-top:5px;height:14px;opacity:0;transition:opacity .3s}
+.pc-confirm.show{opacity:1}
+
+/* Quick-add chips */
+.pc-chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px;min-height:24px}
+.chip{
+  font-size:10px;font-weight:600;padding:4px 9px;border-radius:50px;
+  border:1.5px solid;transition:all .18s ease;
+  animation:chipPop .25s cubic-bezier(.34,1.56,.64,1) both;
+  position:relative;overflow:hidden;
+}
+@keyframes chipPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.chip.pos{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.35);color:var(--green)}
+.chip.pos:hover{background:var(--green);color:white}
+.chip.neg{background:rgba(180,100,90,.06);border-color:rgba(180,100,90,.2);color:var(--rose-d)}
+.chip.neg:hover{background:var(--rose-d);color:white}
+.chip.hidden-chip{animation:chipBurst .3s ease forwards}
+@keyframes chipBurst{to{transform:scale(1.4);opacity:0}}
+
+/* ══ STEP 2 — FORM ══ */
+.form-wrap{padding:16px 16px 24px}
+.form-section{
+  background:var(--white);
+  border-radius:var(--r2);
+  border:1px solid rgba(212,146,138,.12);
+  padding:18px;
+  margin-bottom:12px;
+  animation:slideInLeft .4s ease both;
+}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+.form-section-title{
+  font-size:9.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--rose);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.form-section-title::after{content:'';flex:1;height:1px;background:rgba(212,146,138,.2)}
+
+.fg{margin-bottom:13px}
+.fg:last-child{margin-bottom:0}
+.fg label{
+  display:block;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--ink-s);margin-bottom:5px;
+}
+.fg label span.req{color:var(--rose-d);margin-left:2px}
+.fg input,.fg textarea,.fg select{
+  width:100%;padding:10px 13px;
+  border:1.5px solid rgba(212,146,138,.22);
+  border-radius:var(--r);
+  background:var(--cream);
+  font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);
+  transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none;appearance:none;
+  outline:none;
+}
+.fg input:focus,.fg textarea:focus,.fg select:focus{
+  border-color:var(--rose-d);
+  box-shadow:0 0 0 3px rgba(184,102,94,.1);
+  background:var(--white);
+}
+.fg textarea{resize:none;min-height:80px;line-height:1.6}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A07870' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg-err{font-size:10.5px;color:var(--rose-d);margin-top:4px;font-weight:500;display:none}
+.fg-err.show{display:block}
+
+/* Color grid */
+#color-grid{display:flex;flex-wrap:wrap;gap:7px;padding:2px 0}
+.color-sw{
+  width:30px;height:30px;border-radius:50%;
+  transition:transform .2s,box-shadow .2s;
+  border:2.5px solid transparent;
+  position:relative;
+}
+.color-sw:hover{transform:scale(1.15)}
+.color-sw.active{border-color:var(--ink);box-shadow:0 0 0 2px rgba(44,24,16,.15)}
+.color-sw.active::after{
+  content:'✓';position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:white;
+  text-shadow:0 1px 3px rgba(0,0,0,.5);
+}
+
+/* obs price notice uses inline styles */
+
+/* ══ STEP 3 — RESUMO ══ */
+.resumo-wrap{padding:14px 14px 24px}
+.res-card{
+  background:var(--white);border-radius:var(--r2);
+  border:1px solid rgba(212,146,138,.12);
+  overflow:hidden;margin-bottom:12px;
+  box-shadow:var(--sh);
+  animation:slideInLeft .4s ease both;
+}
+.res-card-head{
+  background:var(--ink);color:white;
+  padding:14px 18px;display:flex;align-items:center;gap:10px;
+  position:relative;overflow:hidden;
+}
+.res-card-head::after{content:attr(data-letter);position:absolute;right:-6px;top:-14px;font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:rgba(255,255,255,.04);line-height:1;pointer-events:none}
+.res-card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;letter-spacing:.5px}
+.res-card-sub{font-size:10px;opacity:.45;font-weight:300}
+
+/* Product list in Step 3 */
+#sp-list{padding:4px 0}
+.sp-row{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 18px;border-bottom:1px solid rgba(212,146,138,.08);
+  transition:background .2s,opacity .4s,transform .4s;
+}
+.sp-row:last-child{border-bottom:none}
+.sp-row.removing{opacity:0;transform:translateX(-20px)}
+.sp-em{font-size:22px;flex-shrink:0;width:28px;text-align:center}
+.sp-name{flex:1;font-size:12.5px;font-weight:500;color:var(--ink);line-height:1.3}
+.sp-price{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-s);flex-shrink:0;text-align:right}
+.sp-stepper{display:flex;align-items:center;gap:0;background:var(--cream);border-radius:50px;border:1px solid rgba(212,146,138,.2);flex-shrink:0}
+.sp-btn{width:26px;height:26px;border:none;background:transparent;font-size:14px;color:var(--rose-d);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.sp-btn:hover{background:var(--rose-d);color:white;border-radius:50px}
+.sp-qty{font-size:12px;font-weight:600;color:var(--ink);min-width:22px;text-align:center}
+
+/* Summary details */
+#sum-details{padding:14px 18px}
+.sd-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(212,146,138,.07)}
+.sd-row:last-child{border-bottom:none}
+.sd-label{font-size:9.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-s);flex-shrink:0;width:90px;padding-top:1px}
+.sd-val{font-size:12.5px;color:var(--ink);flex:1;line-height:1.5}
+
+/* Price box */
+#price-box{padding:16px 18px;border-top:1px solid rgba(212,146,138,.1)}
+.price-label{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--ink-s);margin-bottom:6px}
+#price-display{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--rose-d);letter-spacing:-.5px}
+#price-warning{font-size:11px;color:var(--rose-d);margin-top:6px;padding:8px 10px;background:rgba(184,102,94,.08);border-radius:8px;border-left:3px solid var(--rose-d);display:none;font-weight:500}
+
+/* PIX card */
+.pix-card{background:var(--white);border-radius:var(--r2);border:1px solid rgba(212,146,138,.12);padding:20px;margin-bottom:12px;text-align:center;box-shadow:var(--sh)}
+.pix-eyebrow{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--ink-s);margin-bottom:10px}
+.pix-key{
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;
+  color:var(--ink);background:var(--cream);padding:12px 18px;border-radius:var(--r);
+  border:1px solid rgba(212,146,138,.15);margin-bottom:6px;letter-spacing:.5px;
+  transition:background .2s;
+}
+.pix-key:hover{background:var(--cream2)}
+.pix-info{font-size:11.5px;color:var(--ink-s);margin-bottom:16px;line-height:1.7}
+.pix-info strong{color:var(--ink);font-weight:500}
+.btn-copy{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;background:var(--ink);color:white;border:none;
+  padding:13px;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
+  position:relative;overflow:hidden;
+  transition:transform var(--tr),box-shadow var(--tr);
+}
+.btn-copy::before{content:'';position:absolute;inset:0;background:var(--rose-d);transform:translateX(-100%) skewX(-8deg);transition:transform .38s ease}
+.btn-copy:hover::before{transform:translateX(0) skewX(0)}
+.btn-copy:hover{box-shadow:var(--shd);transform:translateY(-1px)}
+.btn-copy span{position:relative;z-index:1}
+.btn-copy.copied{background:var(--green)}
+.btn-copy.copied::before{background:#15803d}
+
+/* WhatsApp button */
+.btn-wa{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;background:#22C55E;color:white;border:none;
+  padding:15px;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;
+  position:relative;overflow:hidden;
+  transition:transform var(--tr),box-shadow var(--tr);
+  margin-bottom:8px;
+  box-shadow:0 4px 20px rgba(34,197,94,.3);
+}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(34,197,94,.4)}
+.btn-wa svg{width:18px;height:18px;fill:white}
+
+/* ══ BOTTOM BAR ══ */
+#bottom-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:600;
+  background:rgba(250,245,242,.97);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(212,146,138,.18);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  display:flex;gap:10px;
+}
+.btn-back{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 20px;border-radius:50px;
+  border:1.5px solid rgba(212,146,138,.3);background:transparent;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink-s);
+  transition:all .2s ease;
+}
+.btn-back:hover{border-color:var(--rose);color:var(--rose-d)}
+.btn-next{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 24px;border-radius:50px;
+  background:var(--ink);color:white;border:none;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
+  position:relative;overflow:hidden;
+  transition:transform var(--tr),box-shadow var(--tr);
+}
+.btn-next::before{content:'';position:absolute;inset:0;background:var(--rose-d);transform:translateX(-100%) skewX(-8deg);transition:transform .38s ease}
+.btn-next:hover::before{transform:translateX(0) skewX(0)}
+.btn-next:hover{transform:translateY(-1px);box-shadow:var(--shd)}
+.btn-next span,.btn-next svg{position:relative;z-index:1}
+.btn-next.disabled{opacity:.45;pointer-events:none}
+
+/* ══ ATM OVERLAY — artístico ══ */
+#atm-overlay{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(250,245,242,.97);backdrop-filter:blur(24px) saturate(1.3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .45s ease,visibility .45s ease;
+}
+#atm-overlay.show{opacity:1;visibility:visible;pointer-events:all}
+/* petals flutuando no fundo do overlay */
+.atm-petal{position:absolute;pointer-events:none;animation:atmPetal linear infinite}
+@keyframes atmPetal{
+  0%  {transform:translateY(-40px) rotate(0deg)  scale(.8);opacity:0}
+  10% {opacity:.6}
+  90% {opacity:.4}
+  100%{transform:translateY(110vh) rotate(540deg) scale(1.1);opacity:0}
+}
+.atm-card{
+  width:min(320px,88vw);
+  background:white;
+  border-radius:28px;
+  padding:32px 28px 28px;
+  box-shadow:0 20px 60px rgba(180,100,90,.14), 0 0 0 1px rgba(212,146,138,.12);
+  position:relative;overflow:hidden;
+  text-align:center;
+}
+/* fundo rose suave no card */
+.atm-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at top,rgba(242,212,208,.35) 0%,transparent 70%);
+  pointer-events:none;
+}
+@keyframes atmIcon{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}
+.atm-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:400;
+  color:var(--ink);
+  letter-spacing:.3px;
+  margin-bottom:6px;
+  position:relative;z-index:1;
+}
+
+/* barra de progresso ornamentada */
+.atm-bar-wrap{position:relative;z-index:1;margin-bottom:10px}
+.atm-bar-bg{
+  height:6px;background:rgba(212,146,138,.12);
+  border-radius:6px;overflow:hidden;
+  box-shadow:inset 0 1px 2px rgba(180,100,90,.08);
+}
+.atm-bar-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--blush),var(--rose),var(--rose-d));
+  border-radius:6px;
+  transition:width .12s linear;
+  position:relative;
+}
+.atm-bar-fill::after{
+  content:'';position:absolute;right:0;top:0;bottom:0;width:14px;
+  background:rgba(255,255,255,.45);border-radius:50%;
+  filter:blur(3px);
+}
+.atm-pct{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:600;
+  color:var(--rose-d);
+  letter-spacing:-1px;
+  position:relative;z-index:1;
+}
+.atm-dots{display:flex;justify-content:center;gap:5px;margin-top:10px;position:relative;z-index:1}
+.atm-dot{width:5px;height:5px;border-radius:50%;background:var(--rose);opacity:.3;animation:atmDotPulse 1.2s ease-in-out infinite}
+.atm-dot:nth-child(2){animation-delay:.2s}
+.atm-dot:nth-child(3){animation-delay:.4s}
+@keyframes atmDotPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.9;transform:scale(1.3)}}
+
+/* ══ SUCCESS SCREEN ══ */
+#success{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  min-height:70vh;padding:48px 24px;text-align:center;position:relative;overflow:hidden;
+}
+#success.show{display:flex;animation:sucFadeIn .6s ease forwards}
+@keyframes sucFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.suc-ring{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--blush),var(--cream2));display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 0 0 12px rgba(242,212,208,.3),0 0 0 24px rgba(242,212,208,.1);animation:sucRing .7s .1s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes sucRing{from{transform:scale(0) rotate(-30deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.suc-icon{font-size:44px;line-height:1;animation:sucPop .5s .3s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes sucPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.suc-title{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:var(--ink);margin-bottom:10px;animation:fsu .5s .45s ease both}
+.suc-title em{font-style:italic;color:var(--rose-d)}
+.suc-sub{font-size:13px;color:var(--ink-s);line-height:1.75;max-width:290px;margin-bottom:8px;animation:fsu .5s .55s ease both}
+.suc-steps{display:flex;flex-direction:column;gap:8px;margin:20px 0 28px;width:100%;max-width:300px;animation:fsu .5s .65s ease both}
+.suc-step{display:flex;align-items:center;gap:10px;background:var(--cream2);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--ink-m);text-align:left}
+.suc-step-num{width:22px;height:22px;border-radius:50%;background:var(--rose);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.suc-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--rose-d);text-decoration:none;border:1.5px solid rgba(212,146,138,.3);border-radius:50px;padding:8px 20px;transition:all .2s ease;animation:fsu .5s .75s ease both}
+.suc-link:hover{background:var(--blush);border-color:var(--rose)}
+
+/* Confetti */
+.cf-piece{position:fixed;pointer-events:none;width:8px;height:8px;border-radius:2px;animation:cfFall linear both;z-index:1000}
+@keyframes cfFall{from{transform:translateY(-20px) rotate(0deg);opacity:1}to{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes sucEmoji{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-80px) scale(1.3);opacity:0}}
+
+/* ══ TOAST ══ */
+#toast{
+  position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;
+  transform:translateX(-50%) translateY(14px);
+  background:var(--ink);color:white;padding:10px 22px;border-radius:50px;
+  font-size:12.5px;font-weight:500;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;z-index:9000;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(44,24,16,.25);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Ripple */
+.rip{position:absolute;border-radius:50%;background:rgba(212,146,138,.3);pointer-events:none;animation:rip .5s ease-out forwards}
+@keyframes rip{from{width:0;height:0;opacity:.7}to{width:200px;height:200px;margin:-100px;opacity:0}}
+
+/* Money particle */
+.fp{position:fixed;pointer-events:none;font-size:18px;z-index:9001;animation:fpUp .85s ease-out forwards}
+@keyframes fpUp{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-55px) scale(.7)}}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:340px){.prog-label{display:none}}
+
+/* Empty cart notice */
+.empty-notice{padding:40px 20px;text-align:center}
+.empty-icon{font-size:48px;margin-bottom:12px;opacity:.5}
+.empty-text{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink-s)}
+.empty-sub{font-size:12px;color:var(--ink-s);margin-top:6px;opacity:.7}
+100%{transform:scale(2);opacity:0}}
+
+
+/* ── PAGE TRANSITION ── */
+@keyframes pgFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pgFadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
+body.page-leaving{animation:pgFadeOut .28s ease forwards;pointer-events:none}
+body{animation:pgFadeIn .38s ease both}
+
+/* ── FEEDBACK VISUAL NOS INPUTS ── */
+.fg input.field-ok,.fg textarea.field-ok,.fg select.field-ok{
+  border-color:rgba(34,197,94,.45);
+  background:rgba(34,197,94,.03);
+  box-shadow:0 0 0 2px rgba(34,197,94,.08);
+}
+.fg input.field-error,.fg textarea.field-error,.fg select.field-error{
+  border-color:var(--rose-d) !important;
+  background:rgba(242,212,208,.12);
+  box-shadow:0 0 0 2px rgba(212,146,138,.18);
+  animation:fieldShake .32s ease;
+}
+@keyframes fieldShake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  75%{transform:translateX(5px)}
+}
+</style>
+</head>
+<body>
+
+
+
+<!-- LOADER -->
+<div id="ldr">
+  <div class="ldr-logo">Djailma Doces</div>
+  <div class="ldr-dots"><div class="ldr-d"></div><div class="ldr-d"></div><div class="ldr-d"></div></div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon" aria-hidden="true">
+  <div class="rb-track">
+    <span>Monte seu Pedido</span><span class="s">·</span>
+    <span>Doces Personalizados em Pasta de Leite em Pó</span><span class="s">·</span>
+    <span>Feitos à mão com amor</span><span class="s">·</span>
+    <span>Goianinha · RN</span><span class="s">·</span>
+    <span>Monte seu Pedido</span><span class="s">·</span>
+    <span>Doces Personalizados em Pasta de Leite em Pó</span><span class="s">·</span>
+    <span>Feitos à mão com amor</span><span class="s">·</span>
+    <span>Goianinha · RN</span><span class="s">·</span>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<header class="topbar" id="hdr">
+  <a href="index.html" class="tb-back">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    <span>Voltar</span>
+  </a>
+  <a href="index.html" class="tb-logo"><em>Djailma</em> Doces</a>
+  <div class="tb-cart">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
+    <div id="cart-count">0</div>
+  </div>
+</header>
+
+<!-- PROGRESS -->
+<div id="progress-wrap">
+  <div class="prog-steps">
+    <div class="prog-line-bg"><div class="prog-line-fill" id="prog-fill"></div></div>
+    <div class="prog-step active" id="ps1">
+      <div class="prog-dot">1</div>
+      <div class="prog-label">Produtos</div>
+    </div>
+    <div class="prog-step" id="ps2">
+      <div class="prog-dot">2</div>
+      <div class="prog-label">Detalhes</div>
+    </div>
+    <div class="prog-step" id="ps3">
+      <div class="prog-dot">3</div>
+      <div class="prog-label">Resumo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ STEP 1 — PRODUTOS ═══════ -->
+<div class="step-panel active" id="step1" style="position:relative;overflow:hidden">
+<div class="deco wing" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:10px;right:8px;width:76px;opacity:.18"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 64" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- asa sup esquerda -->
+  <path d="M50 32 C44 18 28 6 12 10 C2 13 0 24 6 32 C12 40 28 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa sup direita -->
+  <path d="M50 32 C56 18 72 6 88 10 C98 13 100 24 94 32 C88 40 72 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa inf esquerda -->
+  <path d="M50 32 C42 40 22 46 14 42 C8 39 10 32 18 30 C28 28 40 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- asa inf direita -->
+  <path d="M50 32 C58 40 78 46 86 42 C92 39 90 32 82 30 C72 28 60 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- nervuras asa sup esq -->
+  <path d="M50 32 C38 24 24 16 14 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C40 22 32 14 26 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <path d="M50 32 C42 28 30 24 20 26" stroke="#D4928A" stroke-width=".4" opacity=".35"/>
+  <!-- nervuras asa sup dir -->
+  <path d="M50 32 C62 24 76 16 86 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C60 22 68 14 74 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <!-- padrão circular nas asas -->
+  <circle cx="22" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="78" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="26" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <circle cx="74" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <!-- corpo -->
+  <ellipse cx="50" cy="32" rx="2.5" ry="8" fill="rgba(44,24,16,.15)" stroke="#9B4A44" stroke-width=".7"/>
+  <!-- antenas -->
+  <path d="M48 24 C44 18 40 14 36 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <path d="M52 24 C56 18 60 14 64 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <circle cx="36" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+  <circle cx="64" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+</g></svg></div><div class="deco float" style="position:absolute;pointer-events:none;user-select:none;z-index:0;bottom:12px;left:8px;width:52px;opacity:.16"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" fill="none">
+<g stroke-linecap="round">
+  <!-- pétalas -->
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".9"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(72 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(144 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(216 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(288 35 35)"/>
+  <!-- miolo -->
+  <circle cx="35" cy="35" r="7" fill="rgba(212,146,138,.35)" stroke="#D4928A" stroke-width="1"/>
+  <circle cx="35" cy="35" r="3.5" fill="rgba(180,102,94,.3)" stroke="#B8665E" stroke-width=".7"/>
+  <!-- estames -->
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(0 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(60 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(120 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(180 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(240 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(300 35 35)"/>
+</g></svg></div><div class="deco drift" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:50px;left:5px;width:46px;opacity:.14"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 42" fill="none">
+<g stroke-linecap="round">
+  <path d="M32 21 C26 12 14 5 6 9 C1 12 2 20 8 22 C16 24 26 22 32 21Z" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <path d="M32 21 C38 12 50 5 58 9 C63 12 62 20 56 22 C48 24 38 22 32 21Z" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <path d="M32 21 C26 28 14 32 8 29 C4 27 6 22 12 21 C20 20 26 20 32 21Z" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".7"/>
+  <path d="M32 21 C38 28 50 32 56 29 C60 27 58 22 52 21 C44 20 38 20 32 21Z" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".7"/>
+  <path d="M32 21 C24 16 16 11 10 11" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <path d="M32 21 C40 16 48 11 54 11" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <circle cx="14" cy="14" r="2.5" fill="rgba(212,146,138,.22)" stroke="#D4928A" stroke-width=".5" opacity=".55"/>
+  <circle cx="50" cy="14" r="2.5" fill="rgba(212,146,138,.22)" stroke="#D4928A" stroke-width=".5" opacity=".55"/>
+  <ellipse cx="32" cy="21" rx="1.8" ry="5.5" fill="rgba(44,24,16,.12)" stroke="#9B4A44" stroke-width=".6"/>
+  <path d="M31 16 C28 11 25 9 22 8" stroke="#9B4A44" stroke-width=".6" opacity=".45"/>
+  <path d="M33 16 C36 11 39 9 42 8" stroke="#9B4A44" stroke-width=".6" opacity=".45"/>
+  <circle cx="22" cy="8" r="1.2" fill="#D4928A" opacity=".45"/>
+  <circle cx="42" cy="8" r="1.2" fill="#D4928A" opacity=".45"/>
+</g></svg></div><div class="deco sway" style="position:absolute;pointer-events:none;user-select:none;z-index:0;bottom:50px;right:10px;width:38px;opacity:.14"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100" fill="none">
+<g stroke-linecap="round" stroke="#9B4A44" stroke-width=".9">
+  <!-- caule principal -->
+  <path d="M30 96 C30 80 29 60 30 20"/>
+  <!-- galhos -->
+  <path d="M30 70 C20 62 12 60 8 54"/>
+  <path d="M30 70 C40 62 48 60 52 54"/>
+  <path d="M30 52 C22 45 16 44 12 38"/>
+  <path d="M30 52 C38 45 44 44 48 38"/>
+  <!-- flores nos galhos -->
+  <circle cx="8" cy="52" r="6" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".8"/>
+  <circle cx="8" cy="52" r="2.5" fill="rgba(212,146,138,.4)"/>
+  <circle cx="52" cy="52" r="6" fill="rgba(200,168,233,.45)" stroke="#C8A8E9" stroke-width=".8"/>
+  <circle cx="52" cy="52" r="2.5" fill="rgba(180,102,94,.3)"/>
+  <circle cx="12" cy="36" r="5" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8"/>
+  <circle cx="12" cy="36" r="2" fill="rgba(212,146,138,.35)"/>
+  <circle cx="48" cy="36" r="5" fill="rgba(200,168,233,.4)" stroke="#C8A8E9" stroke-width=".8"/>
+  <circle cx="48" cy="36" r="2" fill="rgba(180,102,94,.25)"/>
+  <!-- flor do topo -->
+  <circle cx="30" cy="14" r="8" fill="rgba(242,212,208,.55)" stroke="#D4928A" stroke-width=".9"/>
+  <circle cx="30" cy="14" r="3.5" fill="rgba(212,146,138,.45)"/>
+  <!-- folhinhas -->
+  <path d="M30 78 C24 74 18 76 16 72" stroke="#6B3A2A" stroke-width=".7" opacity=".4"/>
+  <path d="M30 78 C36 74 42 76 44 72" stroke="#6B3A2A" stroke-width=".7" opacity=".4"/>
+  <path d="M30 60 C24 56 20 57 18 53" stroke="#6B3A2A" stroke-width=".6" opacity=".35"/>
+  <path d="M30 60 C36 56 40 57 42 53" stroke="#6B3A2A" stroke-width=".6" opacity=".35"/>
+</g></svg></div><div class="deco spin" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:50%;right:50%;width:24px;opacity:.1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+<g stroke-linecap="round">
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".8"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(72 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(144 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(216 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(288 18 18)"/>
+  <circle cx="18" cy="18" r="4.5" fill="rgba(212,146,138,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <circle cx="18" cy="18" r="2" fill="rgba(180,102,94,.3)"/>
+</g></svg></div>
+  
+  <svg class="ped-floral-corner tl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner bl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner br" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg>
+  <div class="step-head">
+    <div class="step-eyebrow">Passo 1</div>
+    <div class="step-title">Escolha seus <em>Doces</em></div>
+    <div class="step-sub">Mínimo de 25 unidades por produto sem personalização</div>
+  </div>
+  <div id="prod-container"></div>
+</div>
+
+<!-- ═══════ STEP 2 — PERSONALIZAÇÃO ═══════ -->
+<div class="step-panel" id="step2" style="position:relative;overflow:hidden">
+<div class="deco float" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:12px;right:8px;width:62px;opacity:.16"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+<g stroke-linecap="round">
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.4)" stroke="#C8A8E9" stroke-width=".9"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(60 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(120 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(180 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(240 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(300 32 32)"/>
+  <circle cx="32" cy="32" r="6.5" fill="rgba(180,102,94,.2)" stroke="#D4928A" stroke-width=".9"/>
+  <circle cx="32" cy="32" r="3" fill="rgba(212,146,138,.4)"/>
+</g></svg></div><div class="deco wing" style="position:absolute;pointer-events:none;user-select:none;z-index:0;bottom:12px;left:6px;width:68px;opacity:.16"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 64" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- asa sup esquerda -->
+  <path d="M50 32 C44 18 28 6 12 10 C2 13 0 24 6 32 C12 40 28 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa sup direita -->
+  <path d="M50 32 C56 18 72 6 88 10 C98 13 100 24 94 32 C88 40 72 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa inf esquerda -->
+  <path d="M50 32 C42 40 22 46 14 42 C8 39 10 32 18 30 C28 28 40 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- asa inf direita -->
+  <path d="M50 32 C58 40 78 46 86 42 C92 39 90 32 82 30 C72 28 60 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- nervuras asa sup esq -->
+  <path d="M50 32 C38 24 24 16 14 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C40 22 32 14 26 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <path d="M50 32 C42 28 30 24 20 26" stroke="#D4928A" stroke-width=".4" opacity=".35"/>
+  <!-- nervuras asa sup dir -->
+  <path d="M50 32 C62 24 76 16 86 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C60 22 68 14 74 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <!-- padrão circular nas asas -->
+  <circle cx="22" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="78" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="26" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <circle cx="74" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <!-- corpo -->
+  <ellipse cx="50" cy="32" rx="2.5" ry="8" fill="rgba(44,24,16,.15)" stroke="#9B4A44" stroke-width=".7"/>
+  <!-- antenas -->
+  <path d="M48 24 C44 18 40 14 36 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <path d="M52 24 C56 18 60 14 64 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <circle cx="36" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+  <circle cx="64" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+</g></svg></div><div class="deco drift" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:14px;left:8px;width:44px;opacity:.13"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 42" fill="none">
+<g stroke-linecap="round">
+  <path d="M32 21 C26 12 14 5 6 9 C1 12 2 20 8 22 C16 24 26 22 32 21Z" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <path d="M32 21 C38 12 50 5 58 9 C63 12 62 20 56 22 C48 24 38 22 32 21Z" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <path d="M32 21 C26 28 14 32 8 29 C4 27 6 22 12 21 C20 20 26 20 32 21Z" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".7"/>
+  <path d="M32 21 C38 28 50 32 56 29 C60 27 58 22 52 21 C44 20 38 20 32 21Z" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".7"/>
+  <path d="M32 21 C24 16 16 11 10 11" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <path d="M32 21 C40 16 48 11 54 11" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <circle cx="14" cy="14" r="2.5" fill="rgba(212,146,138,.22)" stroke="#D4928A" stroke-width=".5" opacity=".55"/>
+  <circle cx="50" cy="14" r="2.5" fill="rgba(212,146,138,.22)" stroke="#D4928A" stroke-width=".5" opacity=".55"/>
+  <ellipse cx="32" cy="21" rx="1.8" ry="5.5" fill="rgba(44,24,16,.12)" stroke="#9B4A44" stroke-width=".6"/>
+  <path d="M31 16 C28 11 25 9 22 8" stroke="#9B4A44" stroke-width=".6" opacity=".45"/>
+  <path d="M33 16 C36 11 39 9 42 8" stroke="#9B4A44" stroke-width=".6" opacity=".45"/>
+  <circle cx="22" cy="8" r="1.2" fill="#D4928A" opacity=".45"/>
+  <circle cx="42" cy="8" r="1.2" fill="#D4928A" opacity=".45"/>
+</g></svg></div><div class="deco sway" style="position:absolute;pointer-events:none;user-select:none;z-index:0;bottom:60px;right:8px;width:36px;opacity:.13"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 60" fill="none">
+<g stroke-linecap="round" stroke="#6B3A2A" stroke-width=".8">
+  <path d="M20 56 C20 56 4 42 4 26 C4 14 11 5 20 5 C29 5 36 14 36 26 C36 42 20 56 20 56Z" fill="rgba(168,233,184,.18)" stroke="#6B3A2A"/>
+  <path d="M20 56 L20 5" stroke-width=".6" opacity=".5"/>
+  <path d="M20 24 L11 17" stroke-width=".5" opacity=".4"/>
+  <path d="M20 32 L29 25" stroke-width=".5" opacity=".4"/>
+  <path d="M20 40 L12 34" stroke-width=".5" opacity=".4"/>
+  <path d="M20 48 L27 42" stroke-width=".5" opacity=".4"/>
+</g></svg></div><div class="deco spin" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:40%;left:50%;width:22px;opacity:.09"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+<g stroke-linecap="round">
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".8"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(72 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(144 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(216 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(288 18 18)"/>
+  <circle cx="18" cy="18" r="4.5" fill="rgba(212,146,138,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <circle cx="18" cy="18" r="2" fill="rgba(180,102,94,.3)"/>
+</g></svg></div><div class="deco float" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:50px;right:40px;width:30px;opacity:.11"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" fill="none">
+<g stroke-linecap="round">
+  <!-- pétalas -->
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".9"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(72 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(144 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(216 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(288 35 35)"/>
+  <!-- miolo -->
+  <circle cx="35" cy="35" r="7" fill="rgba(212,146,138,.35)" stroke="#D4928A" stroke-width="1"/>
+  <circle cx="35" cy="35" r="3.5" fill="rgba(180,102,94,.3)" stroke="#B8665E" stroke-width=".7"/>
+  <!-- estames -->
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(0 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(60 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(120 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(180 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(240 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(300 35 35)"/>
+</g></svg></div>
+  
+  <svg class="ped-floral-corner tl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner bl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner br" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg>
+  <div class="step-head">
+    <div class="step-eyebrow">Passo 2</div>
+    <div class="step-title"><em>Personalize</em> seu pedido</div>
+    <div class="step-sub">Campos com * são obrigatórios</div>
+  </div>
+  <div class="form-wrap">
+
+    <div class="form-section" style="animation-delay:.04s">
+      <div class="form-section-title">✦ Identificação</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label for="f-cliente">Seu nome <span class="req">*</span></label>
+          <input type="text" id="f-cliente" placeholder="Ex: Djailma" autocomplete="name" aria-required="true" aria-describedby="err-cliente">
+          <div class="fg-err" id="err-cliente" role="alert" aria-live="polite">Por favor, informe seu nome.</div>
+        </div>
+        <div class="fg">
+          <label for="f-aniversariante">Aniversariante</label>
+          <input type="text" id="f-aniversariante" placeholder="Ex: Daniel">
+        </div>
+      </div>
+      <div class="fg">
+        <label for="f-idade">Idade do aniversariante</label>
+        <input type="number" id="f-idade" placeholder="Ex: 8" min="0" max="120">
+      </div>
+    </div>
+
+    <div class="form-section" style="animation-delay:.10s">
+      <div class="form-section-title">✦ Decoração</div>
+      <div class="fg">
+        <label for="f-tema">Tema da decoração <span class="req">*</span></label>
+        <input type="text" id="f-tema" placeholder="Ex: Frozen, Dinossauros, Floral…" aria-required="true" aria-describedby="err-tema">
+        <div class="fg-err" id="err-tema" role="alert" aria-live="polite">Por favor, informe o tema da decoração.</div>
+      </div>
+
+      <div class="fg">
+        <label>Cores principais</label>
+        <div id="color-grid"></div>
+      </div>
+
+      <div class="fg">
+        <label for="f-cores-extra">Outras cores</label>
+        <input type="text" id="f-cores-extra" placeholder="Ex: tons pastel, dourado…">
+      </div>
+    </div>
+
+    <div class="form-section" style="animation-delay:.16s">
+      <div class="form-section-title">✦ Datas</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label for="f-data-retirada">Data de retirada <span class="req">*</span></label>
+          <input type="date" id="f-data-retirada" aria-required="true" aria-describedby="err-retirada">
+          <div class="fg-err" id="err-retirada" role="alert" aria-live="polite">A data de retirada deve ser anterior ao evento.</div>
+        </div>
+        <div class="fg">
+          <label for="f-data-evento">Data do evento <span class="req">*</span></label>
+          <input type="date" id="f-data-evento" aria-required="true" aria-describedby="err-data">
+          <div class="fg-err" id="err-data" role="alert" aria-live="polite">Por favor, informe a data do evento.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section" style="animation-delay:.22s">
+      <div class="form-section-title">✦ Observações</div>
+      <div class="fg">
+        <label for="f-obs">Anotações adicionais</label>
+        <textarea id="f-obs" placeholder="Algum detalhe especial, restrições, preferências…" oninput="checkObsPrice()"></textarea>
+      </div>
+      <!-- Aviso dinâmico de impacto no preço -->
+      <div id="obs-price-notice" style="display:none;margin-top:10px;padding:11px 14px;background:rgba(212,146,138,.08);border-radius:10px;border-left:3px solid var(--rose-d)">
+        <div style="display:flex;align-items:flex-start;gap:9px">
+          <span style="font-size:16px;flex-shrink:0">💰</span>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--rose-d);margin-bottom:3px">Atenção: observações podem alterar o preço</div>
+            <div style="font-size:11px;color:var(--ink-s);line-height:1.6" id="obs-price-text">Detalhes extras de personalização (acessórios, modelagens adicionais, acabamentos especiais) podem gerar custo adicional. O valor final será confirmado pelo WhatsApp.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" id="f-nivel" value="simples">
+
+  </div>
+</div>
+
+<!-- ═══════ STEP 3 — RESUMO ═══════ -->
+<div class="step-panel" id="step3" style="position:relative;overflow:hidden">
+<div class="deco float" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:10px;left:8px;width:58px;opacity:.16"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" fill="none">
+<g stroke-linecap="round">
+  <!-- pétalas -->
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".9"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(72 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(144 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(216 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(288 35 35)"/>
+  <!-- miolo -->
+  <circle cx="35" cy="35" r="7" fill="rgba(212,146,138,.35)" stroke="#D4928A" stroke-width="1"/>
+  <circle cx="35" cy="35" r="3.5" fill="rgba(180,102,94,.3)" stroke="#B8665E" stroke-width=".7"/>
+  <!-- estames -->
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(0 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(60 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(120 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(180 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(240 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(300 35 35)"/>
+</g></svg></div><div class="deco wing-r" style="position:absolute;pointer-events:none;user-select:none;z-index:0;bottom:10px;right:6px;width:70px;opacity:.16"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 64" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- asa sup esquerda -->
+  <path d="M50 32 C44 18 28 6 12 10 C2 13 0 24 6 32 C12 40 28 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa sup direita -->
+  <path d="M50 32 C56 18 72 6 88 10 C98 13 100 24 94 32 C88 40 72 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa inf esquerda -->
+  <path d="M50 32 C42 40 22 46 14 42 C8 39 10 32 18 30 C28 28 40 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- asa inf direita -->
+  <path d="M50 32 C58 40 78 46 86 42 C92 39 90 32 82 30 C72 28 60 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- nervuras asa sup esq -->
+  <path d="M50 32 C38 24 24 16 14 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C40 22 32 14 26 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <path d="M50 32 C42 28 30 24 20 26" stroke="#D4928A" stroke-width=".4" opacity=".35"/>
+  <!-- nervuras asa sup dir -->
+  <path d="M50 32 C62 24 76 16 86 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C60 22 68 14 74 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <!-- padrão circular nas asas -->
+  <circle cx="22" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="78" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="26" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <circle cx="74" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <!-- corpo -->
+  <ellipse cx="50" cy="32" rx="2.5" ry="8" fill="rgba(44,24,16,.15)" stroke="#9B4A44" stroke-width=".7"/>
+  <!-- antenas -->
+  <path d="M48 24 C44 18 40 14 36 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <path d="M52 24 C56 18 60 14 64 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <circle cx="36" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+  <circle cx="64" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+</g></svg></div><div class="deco drift" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:60px;right:8px;width:44px;opacity:.13"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 42" fill="none">
+<g stroke-linecap="round">
+  <path d="M32 21 C26 12 14 5 6 9 C1 12 2 20 8 22 C16 24 26 22 32 21Z" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <path d="M32 21 C38 12 50 5 58 9 C63 12 62 20 56 22 C48 24 38 22 32 21Z" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <path d="M32 21 C26 28 14 32 8 29 C4 27 6 22 12 21 C20 20 26 20 32 21Z" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".7"/>
+  <path d="M32 21 C38 28 50 32 56 29 C60 27 58 22 52 21 C44 20 38 20 32 21Z" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".7"/>
+  <path d="M32 21 C24 16 16 11 10 11" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <path d="M32 21 C40 16 48 11 54 11" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <circle cx="14" cy="14" r="2.5" fill="rgba(212,146,138,.22)" stroke="#D4928A" stroke-width=".5" opacity=".55"/>
+  <circle cx="50" cy="14" r="2.5" fill="rgba(212,146,138,.22)" stroke="#D4928A" stroke-width=".5" opacity=".55"/>
+  <ellipse cx="32" cy="21" rx="1.8" ry="5.5" fill="rgba(44,24,16,.12)" stroke="#9B4A44" stroke-width=".6"/>
+  <path d="M31 16 C28 11 25 9 22 8" stroke="#9B4A44" stroke-width=".6" opacity=".45"/>
+  <path d="M33 16 C36 11 39 9 42 8" stroke="#9B4A44" stroke-width=".6" opacity=".45"/>
+  <circle cx="22" cy="8" r="1.2" fill="#D4928A" opacity=".45"/>
+  <circle cx="42" cy="8" r="1.2" fill="#D4928A" opacity=".45"/>
+</g></svg></div><div class="deco sway" style="position:absolute;pointer-events:none;user-select:none;z-index:0;bottom:50px;left:10px;width:38px;opacity:.13"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100" fill="none">
+<g stroke-linecap="round" stroke="#9B4A44" stroke-width=".9">
+  <!-- caule principal -->
+  <path d="M30 96 C30 80 29 60 30 20"/>
+  <!-- galhos -->
+  <path d="M30 70 C20 62 12 60 8 54"/>
+  <path d="M30 70 C40 62 48 60 52 54"/>
+  <path d="M30 52 C22 45 16 44 12 38"/>
+  <path d="M30 52 C38 45 44 44 48 38"/>
+  <!-- flores nos galhos -->
+  <circle cx="8" cy="52" r="6" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".8"/>
+  <circle cx="8" cy="52" r="2.5" fill="rgba(212,146,138,.4)"/>
+  <circle cx="52" cy="52" r="6" fill="rgba(200,168,233,.45)" stroke="#C8A8E9" stroke-width=".8"/>
+  <circle cx="52" cy="52" r="2.5" fill="rgba(180,102,94,.3)"/>
+  <circle cx="12" cy="36" r="5" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8"/>
+  <circle cx="12" cy="36" r="2" fill="rgba(212,146,138,.35)"/>
+  <circle cx="48" cy="36" r="5" fill="rgba(200,168,233,.4)" stroke="#C8A8E9" stroke-width=".8"/>
+  <circle cx="48" cy="36" r="2" fill="rgba(180,102,94,.25)"/>
+  <!-- flor do topo -->
+  <circle cx="30" cy="14" r="8" fill="rgba(242,212,208,.55)" stroke="#D4928A" stroke-width=".9"/>
+  <circle cx="30" cy="14" r="3.5" fill="rgba(212,146,138,.45)"/>
+  <!-- folhinhas -->
+  <path d="M30 78 C24 74 18 76 16 72" stroke="#6B3A2A" stroke-width=".7" opacity=".4"/>
+  <path d="M30 78 C36 74 42 76 44 72" stroke="#6B3A2A" stroke-width=".7" opacity=".4"/>
+  <path d="M30 60 C24 56 20 57 18 53" stroke="#6B3A2A" stroke-width=".6" opacity=".35"/>
+  <path d="M30 60 C36 56 40 57 42 53" stroke="#6B3A2A" stroke-width=".6" opacity=".35"/>
+</g></svg></div><div class="deco spin" style="position:absolute;pointer-events:none;user-select:none;z-index:0;top:45%;right:6px;width:24px;opacity:.1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+<g stroke-linecap="round">
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".8"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(72 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(144 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(216 18 18)"/>
+  <ellipse cx="18" cy="9" rx="3.5" ry="7" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".8" transform="rotate(288 18 18)"/>
+  <circle cx="18" cy="18" r="4.5" fill="rgba(212,146,138,.4)" stroke="#D4928A" stroke-width=".8"/>
+  <circle cx="18" cy="18" r="2" fill="rgba(180,102,94,.3)"/>
+</g></svg></div>
+  
+  <svg class="ped-floral-corner tl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner bl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg><svg class="ped-floral-corner br" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" fill="none"><path d="M4 48 L4 4 L48 4" stroke="#D4928A" stroke-width="1.4" stroke-linecap="round" opacity=".7"/><path d="M4 4 Q16 4 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><path d="M4 4 Q4 16 16 16" stroke="#D4928A" stroke-width="1" stroke-linecap="round" opacity=".45"/><circle cx="4" cy="4" r="2.5" fill="#D4928A" opacity=".6"/><circle cx="16" cy="16" r="1.5" fill="#D4928A" opacity=".35"/><path d="M4 18 Q10 18 10 24" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><path d="M18 4 Q18 10 24 10" stroke="#D4928A" stroke-width=".8" stroke-linecap="round" opacity=".35"/><circle cx="10" cy="24" r="1" fill="#D4928A" opacity=".3"/><circle cx="24" cy="10" r="1" fill="#D4928A" opacity=".3"/><path d="M4 30 Q7 30 7 33" stroke="#D4928A" stroke-width=".7" opacity=".25"/><path d="M30 4 Q30 7 33 7" stroke="#D4928A" stroke-width=".7" opacity=".25"/></svg>
+  <div class="step-head">
+    <div class="step-eyebrow">Passo 3</div>
+    <div class="step-title">Revise seu <em>Pedido</em></div>
+    <div class="step-sub">Confira tudo antes de enviar</div>
+  </div>
+  <div class="resumo-wrap">
+
+    <!-- Products -->
+    <div class="res-card" style="animation-delay:.04s">
+      <div class="res-card-head" data-letter="P">
+        <div>
+          <div class="res-card-title">Produtos</div>
+          <div class="res-card-sub">Ajuste as quantidades se precisar</div>
+        </div>
+      </div>
+      <div id="sp-list"></div>
+    </div>
+
+    <!-- Details -->
+    <div class="res-card" style="animation-delay:.10s">
+      <div class="res-card-head" data-letter="D">
+        <div>
+          <div class="res-card-title">Personalização</div>
+          <div class="res-card-sub">Informações do pedido</div>
+        </div>
+      </div>
+      <div id="sum-details"></div>
+    </div>
+
+    <!-- Price -->
+    <div class="res-card" style="animation-delay:.16s">
+      <div class="res-card-head" data-letter="V">
+        <div>
+          <div class="res-card-title">Estimativa de Valor</div>
+          <div class="res-card-sub">Pode variar conforme decoração</div>
+        </div>
+      </div>
+      <div id="price-box">
+        <div class="price-label">Valor estimado</div>
+        <div id="price-display">...</div>
+        <div id="price-warning">⚠️ Pedido acima de R$2.000,00. Entre em contato para confirmar.</div>
+      </div>
+    </div>
+
+    <!-- PIX -->
+    <div class="pix-card" style="animation-delay:.22s">
+      <div class="pix-eyebrow">Chave PIX · CPF</div>
+      <div class="pix-key">046.449.654-30</div>
+      <div class="pix-info">
+        <strong>Djailma da Silva Lima</strong><br>
+        Caixa Econômica Federal<br>
+        <span style="opacity:.8">Pague 50% agora para confirmar o pedido</span>
+      </div>
+      <button class="btn-copy" id="btn-copy" onclick="copyPix(this)">
+        <span id="copy-txt">📋 Copiar Chave PIX</span>
+      </button>
+    </div>
+
+    <!-- WA Button -->
+    <button class="btn-wa" onclick="sendToWhatsApp()">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.852L.073 23.927a.5.5 0 00.6.6l6.075-1.459A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.95 9.95 0 01-5.104-1.4l-.367-.218-3.802.913.914-3.802-.218-.367A9.95 9.95 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      <span>Enviar Pedido pelo WhatsApp</span>
+    </button>
+
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div id="success">
+  <div class="suc-ring"><div class="suc-icon">🎉</div></div>
+  <div class="suc-title">Pedido <em>enviado!</em></div>
+  <div class="suc-sub">Sua mensagem foi enviada para o WhatsApp da Djailma. Em breve ela confirmará os detalhes.</div>
+  <div class="suc-steps">
+    <div class="suc-step"><div class="suc-step-num">1</div><span>Aguarde a confirmação da Djailma pelo WhatsApp</span></div>
+    <div class="suc-step"><div class="suc-step-num">2</div><span>Realize o PIX de <strong>50%</strong> após a confirmação</span></div>
+    <div class="suc-step"><div class="suc-step-num">3</div><span>Retire na data combinada na Travessa São Miguel</span></div>
+  </div>
+  <a href="index.html" class="suc-link">← Voltar ao início</a>
+</div>
+
+<!-- CONFETTI CONTAINER -->
+<div id="confetti" style="position:fixed;inset:0;pointer-events:none;z-index:999"></div>
+
+<!-- BOTTOM BAR -->
+<div id="bottom-bar">
+  <button class="btn-back" id="btn-back" onclick="goBack()" style="display:none">
+    ← Voltar
+  </button>
+  <button class="btn-next" id="btn-next" onclick="goNext()">
+    <span id="btn-next-txt">Escolher personalização →</span>
+  </button>
+</div>
+
+<!-- ATM OVERLAY -->
+<div id="atm-overlay" role="status" aria-label="Preparando resumo">
+  <div class="atm-card">
+    <!-- cantos florais -->
+    <div style="position:absolute;top:8px;left:8px;width:38px;height:38px;pointer-events:none;opacity:.5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- linhas de moldura -->
+  <path d="M4 76 L4 4 L76 4" stroke="#D4928A" stroke-width="1.2" opacity=".6"/>
+  <!-- curva decorativa -->
+  <path d="M4 4 Q32 4 32 32 Q32 4 60 4" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <path d="M4 4 Q4 32 32 32 Q4 32 4 60" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <!-- florzinha no canto -->
+  <circle cx="4" cy="4" r="3" fill="rgba(212,146,138,.6)" stroke="#D4928A" stroke-width=".8"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7" transform="rotate(90 4 4)"/>
+  <!-- pontinhos decorativos -->
+  <circle cx="4" cy="22" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="4" cy="38" r="1.2" fill="#D4928A" opacity=".3"/>
+  <circle cx="22" cy="4" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="38" cy="4" r="1.2" fill="#D4928A" opacity=".3"/>
+  <!-- florzinha média -->
+  <circle cx="32" cy="32" r="5" fill="rgba(242,212,208,.35)" stroke="#D4928A" stroke-width=".7" opacity=".55"/>
+  <circle cx="32" cy="32" r="2.2" fill="rgba(212,146,138,.35)" opacity=".6"/>
+</g></svg></div>
+    <div style="position:absolute;top:8px;right:8px;width:38px;height:38px;pointer-events:none;opacity:.5;transform:scaleX(-1)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- linhas de moldura -->
+  <path d="M4 76 L4 4 L76 4" stroke="#D4928A" stroke-width="1.2" opacity=".6"/>
+  <!-- curva decorativa -->
+  <path d="M4 4 Q32 4 32 32 Q32 4 60 4" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <path d="M4 4 Q4 32 32 32 Q4 32 4 60" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <!-- florzinha no canto -->
+  <circle cx="4" cy="4" r="3" fill="rgba(212,146,138,.6)" stroke="#D4928A" stroke-width=".8"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7" transform="rotate(90 4 4)"/>
+  <!-- pontinhos decorativos -->
+  <circle cx="4" cy="22" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="4" cy="38" r="1.2" fill="#D4928A" opacity=".3"/>
+  <circle cx="22" cy="4" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="38" cy="4" r="1.2" fill="#D4928A" opacity=".3"/>
+  <!-- florzinha média -->
+  <circle cx="32" cy="32" r="5" fill="rgba(242,212,208,.35)" stroke="#D4928A" stroke-width=".7" opacity=".55"/>
+  <circle cx="32" cy="32" r="2.2" fill="rgba(212,146,138,.35)" opacity=".6"/>
+</g></svg></div>
+    <div style="position:absolute;bottom:8px;left:8px;width:38px;height:38px;pointer-events:none;opacity:.5;transform:scaleY(-1)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- linhas de moldura -->
+  <path d="M4 76 L4 4 L76 4" stroke="#D4928A" stroke-width="1.2" opacity=".6"/>
+  <!-- curva decorativa -->
+  <path d="M4 4 Q32 4 32 32 Q32 4 60 4" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <path d="M4 4 Q4 32 32 32 Q4 32 4 60" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <!-- florzinha no canto -->
+  <circle cx="4" cy="4" r="3" fill="rgba(212,146,138,.6)" stroke="#D4928A" stroke-width=".8"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7" transform="rotate(90 4 4)"/>
+  <!-- pontinhos decorativos -->
+  <circle cx="4" cy="22" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="4" cy="38" r="1.2" fill="#D4928A" opacity=".3"/>
+  <circle cx="22" cy="4" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="38" cy="4" r="1.2" fill="#D4928A" opacity=".3"/>
+  <!-- florzinha média -->
+  <circle cx="32" cy="32" r="5" fill="rgba(242,212,208,.35)" stroke="#D4928A" stroke-width=".7" opacity=".55"/>
+  <circle cx="32" cy="32" r="2.2" fill="rgba(212,146,138,.35)" opacity=".6"/>
+</g></svg></div>
+    <div style="position:absolute;bottom:8px;right:8px;width:38px;height:38px;pointer-events:none;opacity:.5;transform:scale(-1,-1)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- linhas de moldura -->
+  <path d="M4 76 L4 4 L76 4" stroke="#D4928A" stroke-width="1.2" opacity=".6"/>
+  <!-- curva decorativa -->
+  <path d="M4 4 Q32 4 32 32 Q32 4 60 4" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <path d="M4 4 Q4 32 32 32 Q4 32 4 60" stroke="#D4928A" stroke-width=".8" opacity=".35" fill="none"/>
+  <!-- florzinha no canto -->
+  <circle cx="4" cy="4" r="3" fill="rgba(212,146,138,.6)" stroke="#D4928A" stroke-width=".8"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7"/>
+  <ellipse cx="4" cy="4" rx="2" ry="5" fill="rgba(242,212,208,.4)" stroke="#D4928A" stroke-width=".6" opacity=".7" transform="rotate(90 4 4)"/>
+  <!-- pontinhos decorativos -->
+  <circle cx="4" cy="22" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="4" cy="38" r="1.2" fill="#D4928A" opacity=".3"/>
+  <circle cx="22" cy="4" r="1.5" fill="#D4928A" opacity=".4"/>
+  <circle cx="38" cy="4" r="1.2" fill="#D4928A" opacity=".3"/>
+  <!-- florzinha média -->
+  <circle cx="32" cy="32" r="5" fill="rgba(242,212,208,.35)" stroke="#D4928A" stroke-width=".7" opacity=".55"/>
+  <circle cx="32" cy="32" r="2.2" fill="rgba(212,146,138,.35)" opacity=".6"/>
+</g></svg></div>
+    <!-- borboleta central animada -->
+    <div class="deco wing" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);width:90px;opacity:.22;z-index:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 64" fill="none">
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- asa sup esquerda -->
+  <path d="M50 32 C44 18 28 6 12 10 C2 13 0 24 6 32 C12 40 28 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa sup direita -->
+  <path d="M50 32 C56 18 72 6 88 10 C98 13 100 24 94 32 C88 40 72 38 50 32Z" fill="rgba(242,212,208,.38)" stroke="#D4928A" stroke-width=".9"/>
+  <!-- asa inf esquerda -->
+  <path d="M50 32 C42 40 22 46 14 42 C8 39 10 32 18 30 C28 28 40 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- asa inf direita -->
+  <path d="M50 32 C58 40 78 46 86 42 C92 39 90 32 82 30 C72 28 60 30 50 32Z" fill="rgba(200,168,233,.28)" stroke="#C8A8E9" stroke-width=".8"/>
+  <!-- nervuras asa sup esq -->
+  <path d="M50 32 C38 24 24 16 14 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C40 22 32 14 26 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <path d="M50 32 C42 28 30 24 20 26" stroke="#D4928A" stroke-width=".4" opacity=".35"/>
+  <!-- nervuras asa sup dir -->
+  <path d="M50 32 C62 24 76 16 86 14" stroke="#D4928A" stroke-width=".5" opacity=".5"/>
+  <path d="M50 32 C60 22 68 14 74 12" stroke="#D4928A" stroke-width=".4" opacity=".4"/>
+  <!-- padrão circular nas asas -->
+  <circle cx="22" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="78" cy="22" r="4" fill="rgba(212,146,138,.2)" stroke="#D4928A" stroke-width=".5" opacity=".6"/>
+  <circle cx="26" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <circle cx="74" cy="36" r="2.5" fill="rgba(200,168,233,.3)" stroke="#C8A8E9" stroke-width=".5" opacity=".5"/>
+  <!-- corpo -->
+  <ellipse cx="50" cy="32" rx="2.5" ry="8" fill="rgba(44,24,16,.15)" stroke="#9B4A44" stroke-width=".7"/>
+  <!-- antenas -->
+  <path d="M48 24 C44 18 40 14 36 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <path d="M52 24 C56 18 60 14 64 12" stroke="#9B4A44" stroke-width=".7" opacity=".5"/>
+  <circle cx="36" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+  <circle cx="64" cy="12" r="1.5" fill="#D4928A" opacity=".5"/>
+</g></svg></div>
+    <!-- flores laterais -->
+    <div class="deco float" style="position:absolute;top:50%;left:10px;transform:translateY(-50%);width:36px;opacity:.35;z-index:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70" fill="none">
+<g stroke-linecap="round">
+  <!-- pétalas -->
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.5)" stroke="#D4928A" stroke-width=".9"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(72 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(144 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(216 35 35)"/>
+  <ellipse cx="35" cy="16" rx="6" ry="11" fill="rgba(242,212,208,.45)" stroke="#D4928A" stroke-width=".9" transform="rotate(288 35 35)"/>
+  <!-- miolo -->
+  <circle cx="35" cy="35" r="7" fill="rgba(212,146,138,.35)" stroke="#D4928A" stroke-width="1"/>
+  <circle cx="35" cy="35" r="3.5" fill="rgba(180,102,94,.3)" stroke="#B8665E" stroke-width=".7"/>
+  <!-- estames -->
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(0 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(60 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(120 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(180 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(240 35 35)"/>
+  <circle cx="35" cy="27" r="1.2" fill="#D4928A" opacity=".5" transform="rotate(300 35 35)"/>
+</g></svg></div>
+    <div class="deco float" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);width:36px;opacity:.35;z-index:0;animation-delay:1.2s"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+<g stroke-linecap="round">
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.4)" stroke="#C8A8E9" stroke-width=".9"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(60 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(120 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(180 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(240 32 32)"/>
+  <ellipse cx="32" cy="14" rx="5" ry="10" fill="rgba(200,168,233,.38)" stroke="#C8A8E9" stroke-width=".9" transform="rotate(300 32 32)"/>
+  <circle cx="32" cy="32" r="6.5" fill="rgba(180,102,94,.2)" stroke="#D4928A" stroke-width=".9"/>
+  <circle cx="32" cy="32" r="3" fill="rgba(212,146,138,.4)"/>
+</g></svg></div>
+    <!-- texto único centralizado -->
+    <div style="position:relative;z-index:1;text-align:center;padding:32px 16px 24px">
+      <div class="atm-title">Montando seu pedido</div>
+    </div>
+    <div class="atm-bar-wrap" style="position:relative;z-index:1">
+      <div class="atm-bar-bg"><div class="atm-bar-fill" id="atm-fill"></div></div>
+    </div>
+    <div class="atm-pct" id="atm-pct" style="position:relative;z-index:1">0%</div>
+    <div class="atm-dots" style="position:relative;z-index:1"><div class="atm-dot"></div><div class="atm-dot"></div><div class="atm-dot"></div></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════════
+const PRODUCTS = [
+  { id:'brig-dec',   nome:'Brigadeiro Decorado',       emoji:'🎨', preco:5.00,   unid:'unidade' },
+  { id:'brig-trad',  nome:'Brigadeiros (Cento)',        emoji:'🍫', preco:150.00, unid:'cento'   },
+  { id:'trufa-2d',   nome:'Trufa 2D',                  emoji:'🖼️', preco:6.00,   unid:'unidade' },
+  { id:'trufa-quad', nome:'Trufa Quadrada',             emoji:'▪️', preco:8.00,   unid:'unidade' },
+  { id:'trufa-3d',   nome:'Trufa 3D',                  emoji:'🧊', preco:8.00,   unid:'unidade' },
+  { id:'bombom-red', nome:'Bombom Redondo',             emoji:'⚪', preco:15.00,  unid:'unidade' },
+  { id:'bombom-dup', nome:'Bombom Duplo',               emoji:'🍬', preco:30.00,  unid:'unidade' },
+  { id:'bombom-cas', nome:'Bombom Casinha',             emoji:'🏠', preco:30.00,  unid:'unidade' },
+  { id:'pirulito',   nome:'Pirulito',                   emoji:'🍭', preco:9.50,   unid:'unidade' },
+  { id:'alfajor',    nome:'Alfajor',                    emoji:'🍪', preco:11.00,  unid:'unidade' },
+  { id:'maca',       nome:'Maçã Decorada',              emoji:'🍎', preco:15.00,  unid:'unidade' },
+  { id:'palha',      nome:'Palha Italiana',             emoji:'🍫', preco:17.00,  unid:'unidade' },
+  { id:'popsicle',   nome:'Popsicle',                   emoji:'🧁', preco:25.00,  unid:'unidade' },
+  { id:'cone',       nome:'Cone Trufado',               emoji:'🍦', preco:30.00,  unid:'unidade' },
+  { id:'jarrinho',   nome:'Jarrinho',                   emoji:'🫙', preco:10.00,  unid:'unidade' },
+  { id:'cestinha-quad', nome:'Cestinha Quadrada',        emoji:'🧺', preco:20.00,  unid:'unidade' },
+  { id:'cestinha-red',  nome:'Cestinha Redonda',         emoji:'🪣', preco:15.00,  unid:'unidade' },
+];
+
+const COLORS = [
+  {name:'Rosa',       hex:'#F4A5AE'}, {name:'Lilás',     hex:'#C8A8E9'},
+  {name:'Azul bebê', hex:'#A8CCE9'}, {name:'Verde menta',hex:'#A8E9B8'},
+  {name:'Amarelo',   hex:'#F5E6A8'}, {name:'Pêssego',   hex:'#F5C8A8'},
+  {name:'Dourado',   hex:'#D4AF70'}, {name:'Vermelho',  hex:'#E87878'},
+  {name:'Roxo',      hex:'#B87EE0'}, {name:'Verde',     hex:'#78C878'},
+  {name:'Azul',      hex:'#78A8E8'}, {name:'Branco',    hex:'#F5F0EB'},
+  {name:'Preto',     hex:'#3C3030'}, {name:'Marrom',    hex:'#A07050'},
+];
+
+const NIVEL_MULT = { simples: 1.0, medio: 1.25, elaborado: 1.6 };
+const CHIP_AMOUNTS = [5, 10, 25, 50];
+const WA_NUM = '5584991461014';
+const PIX_KEY = '046.449.654-30';
+
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+const cart = {};
+let currentStep = 1;
+const selectedColors = new Set();
+
+// ════════════════════════════════════════════
+//  AUDIO ENGINE
+// ════════════════════════════════════════════
+let _ac = null;
+function getAudio() {
+  if (!_ac) _ac = new (window.AudioContext || window.webkitAudioContext)();
+  if (_ac.state === 'suspended') _ac.resume();
+  return _ac;
+}
+
+// Generic soft tone helper
+function softTone(freqs, vol, dur, type='sine') {
+  try {
+    const ac = getAudio();
+    freqs.forEach((f, i) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2800;
+      o.type = type; o.frequency.value = f;
+      o.connect(lp); lp.connect(g); g.connect(ac.destination);
+      const t = ac.currentTime + i * dur * 0.42;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol, t + 0.018);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.start(t); o.stop(t + dur + 0.05);
+    });
+  } catch(e) {}
+}
+
+// ── ATM / Caixa registradora synthesized ──
+// Simula o "bip" metálico de matrícula de caixa eletrônico:
+// 1) Ruído branco curtíssimo (mecanismo)  → 12ms
+// 2) Tone metálico agudo (bip eletrônico) → freq escalada por valor
+// 3) Decaimento rápido tipo caixa registradora
+function playCashRegister(amount) {
+  // Som suave de adicionar — acorde ascendente em sine, tipo campainha delicada
+  try {
+    const ac = getAudio();
+    const t = ac.currentTime;
+    // dois tons harmônicos em sine — leve e musical
+    [[523, 0], [659, 0.07], [784, 0.13]].forEach(([freq, delay]) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2000;
+      o.type = 'sine'; o.frequency.value = freq;
+      o.connect(lp); lp.connect(g); g.connect(ac.destination);
+      g.gain.setValueAtTime(0, t + delay);
+      g.gain.linearRampToValueAtTime(0.06, t + delay + 0.018);
+      g.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.22);
+      o.start(t + delay); o.stop(t + delay + 0.24);
+    });
+  } catch(e) {}
+}
+
+// Som suave de remover — dois tons descendentes em sine, delicado
+function playCashDebit() {
+  try {
+    const ac = getAudio();
+    const t = ac.currentTime;
+    [[523, 0], [392, 0.09]].forEach(([freq, delay]) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1600;
+      o.type = 'sine'; o.frequency.value = freq;
+      o.connect(lp); lp.connect(g); g.connect(ac.destination);
+      g.gain.setValueAtTime(0, t + delay);
+      g.gain.linearRampToValueAtTime(0.05, t + delay + 0.018);
+      g.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.18);
+      o.start(t + delay); o.stop(t + delay + 0.2);
+    });
+  } catch(e) {}
+}
+
+function playSound(type, amount) {
+  const map = {
+    next:    () => softTone([659, 880], 0.055, 0.13),
+    back:    () => softTone([523, 392], 0.055, 0.13),
+    add:     () => playCashRegister(amount || 1),
+    remove:  () => playCashDebit(),
+    hover:   () => softTone([880, 1108], 0.028, 0.09),
+    success: () => softTone([523, 659, 784, 1047], 0.075, 0.17),
+    copy:    () => softTone([1047, 1318], 0.065, 0.13),
+    error:   () => softTone([180, 160], 0.08, 0.16, 'sawtooth'),
+    coloron: () => softTone([1175, 1397], 0.045, 0.09),
+    coloroff:() => softTone([988, 784], 0.038, 0.09),
+  };
+  if (map[type]) map[type]();
+}
+
+// ════════════════════════════════════════════
+//  CART HELPERS
+// ════════════════════════════════════════════
+function getCartItems() { return PRODUCTS.filter(p => (cart[p.id] || 0) > 0); }
+function getBaseTotal() { return PRODUCTS.reduce((s, p) => s + (cart[p.id]||0) * p.preco, 0); }
+function getEstimate() {
+  const nivel = document.getElementById('f-nivel').value || 'simples';
+  const mult = NIVEL_MULT[nivel] || 1;
+  const base = getBaseTotal();
+  const surcharge = getCartItems().reduce((s, p) => {
+    const q = cart[p.id] || 0;
+    const add = nivel === 'medio' ? 5 : nivel === 'elaborado' ? 12 : 0;
+    return s + q * add;
+  }, 0);
+  const low = base * mult;
+  const high = base * mult + surcharge + base * 0.1;
+  return { low, high };
+}
+function fmtMoney(n) { return 'R$ ' + n.toFixed(2).replace('.', ','); }
+function fmtDate(s) { if (!s) return ''; const [y,m,d] = s.split('-'); return `${d}/${m}/${y}`; }
+
+function updateCartBadge() {
+  const total = Object.values(cart).reduce((a,b) => a+b, 0);
+  const el = document.getElementById('cart-count');
+  el.textContent = total;
+  el.classList.toggle('show', total > 0);
+}
+
+function updatePrice() {
+  const { low, high } = getEstimate();
+  const disp = document.getElementById('price-display');
+  const warn = document.getElementById('price-warning');
+  if (getCartItems().length === 0) { disp.textContent = '···'; warn.style.display = 'none'; return; }
+  disp.textContent = fmtMoney(low) + ' · ' + fmtMoney(high);
+  warn.style.display = high > 3000 ? 'block' : 'none';
+}
+
+// ════════════════════════════════════════════
+//  PRODUCT QTY CHANGE
+// ════════════════════════════════════════════
+function changeQty(id, delta, e) {
+  const p = PRODUCTS.find(x => x.id === id);
+  const cur = cart[id] || 0;
+  const next = Math.max(0, cur + delta);
+
+
+
+  cart[id] = next;
+  if (delta > 0) { playSound('add', Math.abs(delta)); if (e) spawnFP(e.clientX, e.clientY); }
+  else if (delta < 0 && next === 0) playSound('remove');
+  else playSound('remove');
+
+  renderQty(id);
+  updateCartBadge();
+  updateChips(id);
+}
+
+function quickAdd(id, amount, e) {
+  changeQty(id, amount, e);
+}
+
+function renderQty(id) {
+  const qty = cart[id] || 0;
+  const qtyEl = document.getElementById('qty-' + id);
+  const confirmEl = document.getElementById('confirm-' + id);
+  const card = document.getElementById('pc-' + id);
+  if (qtyEl) qtyEl.textContent = qty;
+  if (confirmEl) {
+    confirmEl.textContent = qty > 0 ? `✓ ${qty}× adicionado(s)` : '';
+    confirmEl.classList.toggle('show', qty > 0);
+  }
+  if (card) card.classList.toggle('selected', qty > 0);
+}
+
+// ════════════════════════════════════════════
+//  CHIPS
+// ════════════════════════════════════════════
+function buildChips(id, dir) {
+  const wrap = document.getElementById('chips-' + id);
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  CHIP_AMOUNTS.forEach(amt => {
+    const ch = document.createElement('button');
+    ch.className = 'chip ' + (dir > 0 ? 'pos' : 'neg');
+    ch.textContent = (dir > 0 ? '+' : '−') + amt;
+    ch.setAttribute('aria-label', (dir > 0 ? 'Adicionar ' : 'Remover ') + amt);
+    ch.addEventListener('click', (e) => { e.stopPropagation(); quickAdd(id, dir * amt, e); updateChips(id); });
+    wrap.appendChild(ch);
+  });
+}
+
+function showChips(id, dir) {
+  buildChips(id, dir);
+  updateChips(id);
+}
+
+function updateChips(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  const curQty = cart[id] || 0;
+  const baseWithout = getBaseTotal() - curQty * p.preco;
+  const wrap = document.getElementById('chips-' + id);
+  if (!wrap) return;
+  wrap.querySelectorAll('.chip').forEach(ch => {
+    const isPos = ch.classList.contains('pos');
+    const amt = parseInt(ch.textContent.replace(/[^0-9]/g,''));
+    if (isPos) {
+      const wouldBe = baseWithout + (curQty + amt) * p.preco;
+
+    } else {
+      if (curQty - amt < 0) {
+        ch.classList.add('hidden-chip');
+        setTimeout(() => ch.remove(), 300);
+      }
+    }
+  });
+}
+
+// ════════════════════════════════════════════
+//  BUILD PRODUCTS
+// ════════════════════════════════════════════
+function buildProducts() {
+  const cont = document.getElementById('prod-container');
+  PRODUCTS.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'pc';
+    card.id = 'pc-' + p.id;
+    card.style.animationDelay = (i * 0.04) + 's';
+    card.innerHTML = `
+      <div class="pc-check">✓</div>
+      <div class="pc-img-wrap">
+        <div class="pc-placeholder">${p.emoji}</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">${p.nome}</div>
+        <div class="pc-price">${fmtMoney(p.preco)}<span class="pc-unit"> / ${p.unid}</span></div>
+        <div class="pc-stepper">
+          <button class="pc-btn" onclick="changeQty('${p.id}', -1, event); showChips('${p.id}', -1)">−</button>
+          <div class="pc-qty" id="qty-${p.id}">0</div>
+          <button class="pc-btn" onclick="changeQty('${p.id}', 1, event); showChips('${p.id}', 1)">+</button>
+        </div>
+        <div class="pc-confirm" id="confirm-${p.id}"></div>
+        <div class="pc-chips" id="chips-${p.id}"></div>
+      </div>
+    `;
+    cont.appendChild(card);
+  });
+}
+
+// ════════════════════════════════════════════
+//  BUILD COLORS
+// ════════════════════════════════════════════
+function buildColors() {
+  const grid = document.getElementById('color-grid');
+  COLORS.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'color-sw';
+    sw.style.background = c.hex;
+    sw.title = c.name;
+    sw.setAttribute('aria-label', c.name);
+    sw.addEventListener('click', () => {
+      if (selectedColors.has(c.name)) {
+        selectedColors.delete(c.name);
+        sw.classList.remove('active');
+        playSound('coloroff');
+      } else {
+        selectedColors.add(c.name);
+        sw.classList.add('active');
+        playSound('coloron');
+      }
+    });
+    grid.appendChild(sw);
+  });
+}
+
+// ════════════════════════════════════════════
+//  BUILD SUMMARY (STEP 3)
+// ════════════════════════════════════════════
+function buildSummary() {
+  // Products list
+  const spList = document.getElementById('sp-list');
+  spList.innerHTML = '';
+  const items = getCartItems();
+  if (items.length === 0) {
+    spList.innerHTML = '<div class="empty-notice"><div class="empty-icon">🛒</div><div class="empty-text">Carrinho vazio</div><div class="empty-sub">Volte e adicione produtos</div></div>';
+    return;
+  }
+  items.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'sp-row';
+    row.id = 'sp-' + p.id;
+    row.innerHTML = `
+      <div class="sp-em">${p.emoji}</div>
+      <div class="sp-name">${p.nome}</div>
+      <div class="sp-stepper">
+        <button class="sp-btn" onclick="s3Change('${p.id}', -1, this)">−</button>
+        <div class="sp-qty" id="sq-${p.id}">${cart[p.id]}</div>
+        <button class="sp-btn" onclick="s3Change('${p.id}', 1, this)">+</button>
+      </div>
+      <div class="sp-price" id="spr-${p.id}">${fmtMoney((cart[p.id]||0)*p.preco)}</div>
+    `;
+    spList.appendChild(row);
+  });
+
+  // Details
+  const sd = document.getElementById('sum-details');
+  sd.innerHTML = '';
+  const fields = [
+    ['Cliente', document.getElementById('f-cliente')?.value],
+    ['Aniversariante', document.getElementById('f-aniversariante')?.value],
+    ['Idade', document.getElementById('f-idade')?.value ? document.getElementById('f-idade').value + ' anos' : ''],
+    ['Tema', document.getElementById('f-tema')?.value],
+    ['Cores', [...selectedColors].join(', ') || document.getElementById('f-cores-extra')?.value],
+    ['Data do Evento', fmtDate(document.getElementById('f-data-evento')?.value)],
+    ['Data de Retirada', fmtDate(document.getElementById('f-data-retirada')?.value)],
+    ['Nível', document.getElementById('f-nivel')?.value || 'simples'],
+    ['Observações', document.getElementById('f-obs')?.value],
+  ];
+  fields.filter(([,v]) => v).forEach(([l, v]) => {
+    const r = document.createElement('div'); r.className = 'sd-row';
+    r.innerHTML = `<div class="sd-label">${l}</div><div class="sd-val">${v}</div>`;
+    sd.appendChild(r);
+  });
+
+  updatePrice();
+}
+
+function s3Change(id, delta, btn) {
+  const p = PRODUCTS.find(x => x.id === id);
+  const cur = cart[id] || 0;
+  const next = Math.max(0, cur + delta);
+
+  if (next === 0) {
+    const row = document.getElementById('sp-' + id);
+    if (row) {
+      row.classList.add('removing');
+      setTimeout(() => { row.remove(); cart[id] = 0; updateCartBadge(); updatePrice(); }, 450);
+    }
+    return;
+  }
+
+
+  cart[id] = next;
+  const sqEl = document.getElementById('sq-' + id);
+  const sprEl = document.getElementById('spr-' + id);
+  if (sqEl) sqEl.textContent = next;
+  if (sprEl) sprEl.textContent = fmtMoney(next * p.preco);
+  updateCartBadge();
+  updatePrice();
+  renderQty(id);
+}
+
+// ════════════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════════════
+function goNext() {
+  if (currentStep === 1) {
+    if (getCartItems().length === 0) {
+      showToast('🛒 Adicione pelo menos um produto');
+      playSound('error');
+      return;
+    }
+    playSound('next');
+    goToStep(2);
+  } else if (currentStep === 2) {
+    if (!validateStep2()) return;
+    playSound('next');
+    runATMLoading(() => goToStep(3));
+  }
+}
+
+function goBack() {
+  if (currentStep <= 1) return;
+  playSound('back');
+  goToStep(currentStep - 1);
+}
+
+function goToStep(n) {
+  document.getElementById('step' + currentStep)?.classList.remove('active');
+  currentStep = n;
+  document.getElementById('step' + n)?.classList.add('active');
+  updateProgress();
+  updateButtons();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (n === 3) buildSummary();
+}
+
+function updateProgress() {
+  const steps = [1, 2, 3];
+  steps.forEach(s => {
+    const el = document.getElementById('ps' + s);
+    el.classList.remove('done', 'active');
+    if (s < currentStep) el.classList.add('done');
+    else if (s === currentStep) el.classList.add('active');
+  });
+  const fill = document.getElementById('prog-fill');
+  fill.style.width = ((currentStep - 1) / 2 * 100) + '%';
+}
+
+function updateButtons() {
+  const back = document.getElementById('btn-back');
+  const next = document.getElementById('btn-next');
+  const nxt = document.getElementById('btn-next-txt');
+  back.style.display = currentStep > 1 ? 'flex' : 'none';
+  if (currentStep === 1) nxt.textContent = 'Escolher personalização →';
+  else if (currentStep === 2) nxt.textContent = 'Revisar pedido →';
+  else { next.style.display = 'none'; }
+  if (currentStep < 3) next.style.display = 'flex';
+}
+
+// ════════════════════════════════════════════
+//  VALIDATION
+// ════════════════════════════════════════════
+function showFieldError(field, errEl, scrollRef) {
+  errEl.classList.add('show');
+  field.classList.add('field-error');
+  playSound('error');
+  if (scrollRef) scrollRef.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function clearFieldError(field, errEl) {
+  errEl.classList.remove('show');
+  field.classList.remove('field-error');
+  field.classList.add('field-ok');
+}
+
+function validateStep2() {
+  let ok = true;
+  let firstError = null;
+
+  // Nome do cliente
+  const cliente = document.getElementById('f-cliente');
+  const errC    = document.getElementById('err-cliente');
+  if (!cliente.value.trim()) {
+    showFieldError(cliente, errC, ok ? cliente.closest('.form-section') : null);
+    if (ok) firstError = cliente;
+    ok = false;
+  } else clearFieldError(cliente, errC);
+
+  // Tema
+  const tema = document.getElementById('f-tema');
+  const errT = document.getElementById('err-tema');
+  if (!tema.value.trim()) {
+    showFieldError(tema, errT, ok ? tema.closest('.form-section') : null);
+    if (ok) firstError = tema;
+    ok = false;
+  } else clearFieldError(tema, errT);
+
+  // Data do evento
+  const dataEvt = document.getElementById('f-data-evento');
+  const errD    = document.getElementById('err-data');
+  if (!dataEvt.value) {
+    showFieldError(dataEvt, errD, ok ? dataEvt.closest('.form-section') : null);
+    if (ok) firstError = dataEvt;
+    ok = false;
+  } else clearFieldError(dataEvt, errD);
+
+  // Data de retirada deve ser anterior ao evento
+  const dataRet = document.getElementById('f-data-retirada');
+  const errR    = document.getElementById('err-retirada');
+  if (!dataRet.value) {
+    showFieldError(dataRet, errR, ok ? dataRet.closest('.form-section') : null);
+    if (ok) firstError = dataRet;
+    ok = false;
+  } else if (dataEvt.value && dataRet.value) {
+    if (new Date(dataRet.value) >= new Date(dataEvt.value)) {
+      showFieldError(dataRet, errR, ok ? dataRet.closest('.form-section') : null);
+      if (ok) firstError = dataRet;
+      ok = false;
+    } else clearFieldError(dataRet, errR);
+  } else if (errR) errR.classList.remove('show');
+
+  if (firstError) firstError.focus();
+  return ok;
+}
+
+// ════════════════════════════════════════════
+//  DEFAULT DATES
+// ════════════════════════════════════════════
+function setDefaultDates() {
+  const min = new Date();
+  min.setDate(min.getDate() + 7);
+  const minStr = min.toISOString().split('T')[0];
+  document.getElementById('f-data-evento').min = minStr;
+  document.getElementById('f-data-retirada').min = minStr;
+}
+
+// ════════════════════════════════════════════
+//  ATM LOADING
+// ════════════════════════════════════════════
+function spawnATMPetals() {
+  const overlay = document.getElementById('atm-overlay');
+  const colors = ['#F4A5AE','#F2D4D0','#C8A8E9','#D4928A','#F5E6A8','#A8E9B8'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'atm-petal';
+    const size = 6 + Math.random() * 10;
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${size}px;height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>.4?'50%':'40% 60% 60% 40%'};
+      opacity:.5;
+      animation-duration:${2.8+Math.random()*2.4}s;
+      animation-delay:${Math.random()*1.8}s;
+    `;
+    overlay.appendChild(p);
+    setTimeout(()=>p.remove(), 5500);
+  }
+}
+
+function runATMLoading(onComplete) {
+  const overlay = document.getElementById('atm-overlay');
+  const fill = document.getElementById('atm-fill');
+  const pct = document.getElementById('atm-pct');
+  overlay.classList.add('show');
+  playSound('next');
+  spawnATMPetals();
+
+  let progress = 0;
+  const start = performance.now();
+  const duration = 1800;
+
+  function tick(now) {
+    const elapsed = now - start;
+    progress = Math.min(100, Math.round((elapsed / duration) * 100));
+    // cubic ease
+    const t = progress / 100;
+    const eased = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+    fill.style.width = (eased * 100) + '%';
+    pct.textContent = progress + '%';
+
+    if (progress >= 50 && !overlay._built) {
+      overlay._built = true;
+      // pre-build summary
+    }
+
+    if (progress < 100) {
+      requestAnimationFrame(tick);
+    } else {
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay._built = false;
+        fill.style.width = '0%';
+        pct.textContent = '0%';
+        onComplete();
+      }, 120);
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+// ════════════════════════════════════════════
+//  WHATSAPP
+// ════════════════════════════════════════════
+function sendToWhatsApp() {
+  const items = getCartItems();
+  if (items.length === 0) { showToast('Carrinho vazio!'); return; }
+
+  const linha = (emoji, l, v) => v ? `${emoji} *${l}:* ${v}\n` : '';
+  const nivelVal   = document.getElementById('f-nivel')?.value || 'simples';
+  const nivelEmoji = nivelVal === 'elaborado' ? '✨✨✨' : nivelVal === 'medio' ? '✨✨' : '✨';
+  const nivelNome  = nivelVal === 'elaborado' ? 'Elaborado' : nivelVal === 'medio' ? 'Médio' : 'Simples';
+  const totalBase  = items.reduce((s, p) => s + (cart[p.id]||0) * p.preco, 0);
+  const { low, high } = getEstimate();
+
+  let msg = '';
+  msg += '🌸✨ *PEDIDO · DJAILMA DOCES* ✨🌸\n';
+  msg += '─'.repeat(28) + '\n\n';
+
+  msg += '🍬 *PRODUTOS ESCOLHIDOS*\n';
+  msg += '·'.repeat(24) + '\n';
+  items.forEach(p => {
+    const sub = (cart[p.id]||0) * p.preco;
+    msg += `${p.emoji} ${p.nome}\n`;
+    msg += `   ↳ ${cart[p.id]} ${p.unid} × ${fmtMoney(p.preco)} = *${fmtMoney(sub)}*\n`;
+  });
+  msg += '·'.repeat(24) + '\n';
+  msg += `💰 *Subtotal base:* ${fmtMoney(totalBase)}\n\n`;
+
+  msg += '🎨 *PERSONALIZAÇÃO*\n';
+  msg += '·'.repeat(24) + '\n';
+  msg += linha('👤', 'Cliente',        document.getElementById('f-cliente')?.value);
+  msg += linha('🎂', 'Aniversariante', document.getElementById('f-aniversariante')?.value);
+  const idadeVal = document.getElementById('f-idade')?.value;
+  msg += linha('🎈', 'Idade', idadeVal ? idadeVal + ' anos' : '');
+  msg += linha('🖼️', 'Tema',   document.getElementById('f-tema')?.value);
+  const cores = [...selectedColors].join(', ') || document.getElementById('f-cores-extra')?.value;
+  msg += linha('🎨', 'Cores', cores);
+  msg += nivelEmoji + ` *Complexidade:* ${nivelNome}\n`;
+  const obs = document.getElementById('f-obs')?.value;
+  if (obs) msg += '\n📝 *Observações:*\n_' + obs + '_\n';
+
+  msg += '\n📅 *DATAS*\n';
+  msg += '·'.repeat(24) + '\n';
+  msg += linha('📦', 'Retirada',       fmtDate(document.getElementById('f-data-retirada')?.value));
+  msg += linha('🎉', 'Data do Evento', fmtDate(document.getElementById('f-data-evento')?.value));
+
+  msg += '\n' + '─'.repeat(28) + '\n';
+  msg += '💵 *ESTIMATIVA DO PEDIDO*\n';
+  msg += `   De ${fmtMoney(low)} até *${fmtMoney(high)}*\n`;
+  msg += '─'.repeat(28) + '\n\n';
+  msg += '_✉️ Pedido enviado pelo formulário djailmadoces.com_\n';
+  msg += '_🕐 ' + new Date().toLocaleString('pt-BR', {dateStyle:'short', timeStyle:'short'}) + '_';
+
+  playSound('success');
+  window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(msg), '_blank');
+
+  setTimeout(() => {
+    document.getElementById('step3').classList.remove('active');
+    document.getElementById('bottom-bar').style.display = 'none';
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.getElementById('success').classList.add('show');
+    launchConfetti();
+  }, 800);
+}
+
+// ════════════════════════════════════════════
+//  PIX COPY
+// ════════════════════════════════════════════
+function copyPix(btn) {
+  const done = () => {
+    const t = document.getElementById('copy-txt');
+    t.textContent = '✅ Copiado!';
+    btn.classList.add('copied');
+    playSound('copy');
+    showToast('✅ Chave PIX copiada!');
+    setTimeout(() => { t.textContent = '📋 Copiar Chave PIX'; btn.classList.remove('copied'); }, 2800);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(PIX_KEY).then(done).catch(() => fbCopy(done));
+  } else fbCopy(done);
+}
+function fbCopy(cb) {
+  const el = Object.assign(document.createElement('textarea'), { value: PIX_KEY, style: 'position:fixed;opacity:0' });
+  document.body.appendChild(el); el.focus(); el.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(el);
+}
+
+// ════════════════════════════════════════════
+//  CONFETTI
+// ════════════════════════════════════════════
+function launchConfetti() {
+  const cont = document.getElementById('confetti');
+  const colors = ['#F4A5AE','#C8A8E9','#A8CCE9','#F5E6A8','#D4928A','#F2D4D0','#A8E9B8','#D4AF70','#F4C2C2'];
+  const emojis = ['🍬','🌸','✨','💕','🎀','🍭'];
+
+  // Peças coloridas
+  for (let i = 0; i < 110; i++) {
+    const p = document.createElement('div');
+    p.className = 'cf-piece';
+    const size = 5 + Math.random() * 9;
+    p.style.cssText = `
+      left:${Math.random()*100}vw;
+      top:-20px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${size}px;height:${size}px;
+      border-radius:${Math.random()>.4 ? '50%' : Math.random()>.5 ? '2px' : '0'};
+      animation-duration:${2.2+Math.random()*3}s;
+      animation-delay:${Math.random()*1.8}s;
+      transform:rotate(${Math.random()*360}deg);
+    `;
+    cont.appendChild(p);
+    setTimeout(() => p.remove(), 5800);
+  }
+
+  // Emojis flutuantes
+  for (let i = 0; i < 14; i++) {
+    setTimeout(() => {
+      const e = document.createElement('div');
+      e.style.cssText = `position:fixed;font-size:${18+Math.random()*14}px;left:${10+Math.random()*80}vw;top:${20+Math.random()*40}vh;pointer-events:none;z-index:1001;animation:sucEmoji ${1.2+Math.random()}s ease-out forwards`;
+      e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      document.body.appendChild(e);
+      setTimeout(() => e.remove(), 2500);
+    }, i * 180);
+  }
+}
+
+// ════════════════════════════════════════════
+//  TOAST & PARTICLES
+// ════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+const FP_EMOJIS = ['💵','💴','💶','🪙','💰','💸','🍬','🌸','✨'];
+function spawnFP(x, y) {
+  const fp = document.createElement('div');
+  fp.className = 'fp';
+  fp.textContent = FP_EMOJIS[Math.floor(Math.random() * FP_EMOJIS.length)];
+  fp.style.left = x + 'px';
+  fp.style.top = y + 'px';
+  document.body.appendChild(fp);
+  setTimeout(() => fp.remove(), 900);
+}
+
+// ════════════════════════════════════════════
+//  OBS PRICE WARNING
+// ════════════════════════════════════════════
+// Palavras-chave que sugerem complexidade extra → aviso de preço
+const OBS_KEYWORDS = [
+  'acessório','acessorios','figurinha','miniatura','personalizado','escultura',
+  'modelagem','detalhe','acabamento','especial','diferente','premium',
+  'dourado','prateado','glitter','laço','lacos','flores','florzinhas',
+  'escrito','frase','letras','nome','renda','arabesco','3d','relevo',
+  'boneco','personagem','unicórnio','unicornio','dragão','dragao',
+  'castelo','coroa','brilho','cristal','pérola','perola','transparente',
+];
+
+let _obsWarnShown = false;
+function checkObsPrice() {
+  const val = (document.getElementById('f-obs')?.value || '').toLowerCase();
+  const notice = document.getElementById('obs-price-notice');
+  const hasKw = OBS_KEYWORDS.some(kw => val.includes(kw));
+  const isLong = val.trim().length > 40;
+  const shouldShow = hasKw || isLong;
+
+  if (shouldShow && !_obsWarnShown) {
+    notice.style.display = 'block';
+    notice.style.animation = 'slideInLeft .35s ease';
+    _obsWarnShown = true;
+    playSound('coloron');
+  } else if (!shouldShow) {
+    notice.style.display = 'none';
+    _obsWarnShown = false;
+  }
+}
+
+// ════════════════════════════════════════════
+//  SOM DE HOVER GLOBAL (cursor padrão do sistema)
+// ════════════════════════════════════════════
+function initCursor() {
+  const HOVER_SEL = 'a, button, .pc-btn, .chip, .color-sw, .nivel-opt, .pix-key, .pc, .slide-btn, [role="button"], label, select, input[type="date"], input[type="number"]';
+  let _lh = 0;
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest(HOVER_SEL)) {
+      const n = Date.now();
+      if (n - _lh > 65) { _lh = n; playSound('hover'); }
+    }
+  }, { passive: true });
+}
+
+// ════════════════════════════════════════════
+//  HEADER SCROLL
+// ════════════════════════════════════════════
+function initScroll() {
+  window.addEventListener('scroll', () => {
+    document.getElementById('hdr').classList.toggle('sc', window.scrollY > 10);
+  }, { passive: true });
+}
+
+// ════════════════════════════════════════════
+//  URL PARAM (jump to item)
+// ════════════════════════════════════════════
+function handleParams() {
+  const params = new URLSearchParams(window.location.search);
+  const itemId = params.get('item');
+  if (itemId && PRODUCTS.find(p => p.id === itemId)) {
+    cart[itemId] = 1;
+    renderQty(itemId);
+    updateCartBadge();
+  }
+}
+
+// ════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildProducts();
+  buildColors();
+  setDefaultDates();
+  initCursor();
+  initScroll();
+  handleParams();
+  updateButtons();
+  setTimeout(() => document.getElementById('ldr').classList.add('gone'), 700);
+
+  // Add shake keyframe
+  const style = document.createElement('style');
+  style.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}';
+  document.head.appendChild(style);
+});
+</script>
+<a id="fab-wa" href="https://wa.me/5584991461014" target="_blank" rel="noopener" class="fab-wa" aria-label="Chamar no WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.852L.073 23.927a.5.5 0 00.6.6l6.075-1.459A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.95 9.95 0 01-5.104-1.4l-.367-.218-3.802.913.914-3.802-.218-.367A9.95 9.95 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+
+// ── PAGE TRANSITION ──
+(function(){
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    // só links internos entre os 3 HTMLs
+    if (!href || href.startsWith('#') || href.startsWith('http') ||
+        href.startsWith('mailto') || href.startsWith('tel') ||
+        href.startsWith('javascript') || a.target === '_blank') return;
+    e.preventDefault();
+    document.body.classList.add('page-leaving');
+    setTimeout(() => { window.location.href = href; }, 280);
+  });
+})();
+
+
+// ── SCROLL SUAVE E LENTO ──
+(function(){
+  // Intercepta cliques em links âncora internos (#section)
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    const start = window.scrollY;
+    const end   = target.getBoundingClientRect().top + window.scrollY - 60;
+    const dist  = end - start;
+    const dur   = Math.min(1200, Math.max(600, Math.abs(dist) * 0.8)); // proporcional à distância
+    let t0 = null;
+    function ease(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t; } // easeInOut
+    function step(ts){
+      if(!t0) t0 = ts;
+      const p = Math.min((ts-t0)/dur, 1);
+      window.scrollTo(0, start + dist * ease(p));
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+})();
+
+
+<script>
+// ── SCROLL SUAVE E LENTO (links âncora) ──
+(function(){
+  function smoothScrollTo(target, duration){
+    if(!target) return;
+    const start = window.scrollY;
+    const end   = target.getBoundingClientRect().top + start - 60;
+    const dist  = end - start;
+    let startTime = null;
+    function ease(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t; }
+    function step(ts){
+      if(!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, start + dist * ease(progress));
+      if(progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if(!el) return;
+    e.preventDefault();
+    smoothScrollTo(el, 900); // 900ms — lento e confortável
+  });
+})();
+</script>
+</body>
+</html>
